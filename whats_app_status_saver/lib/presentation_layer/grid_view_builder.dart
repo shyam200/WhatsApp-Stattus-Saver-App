@@ -32,8 +32,8 @@ class GridViewBuilder extends StatelessWidget {
             onTap: () {
               // bloc.add(MainPageLoadingEvent());
               isVideoView
-                  ? Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => VideoDetailPage()))
+                  ? Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const VideoDetailPage()))
                   : Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => ImageDetailPage(bloc: bloc)));
             },

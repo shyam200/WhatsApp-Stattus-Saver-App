@@ -16,3 +16,18 @@ class MainPageDataLoadedState extends MainPageState {
   @override
   List<Object?> get props => [];
 }
+
+class GalleryPermissionGrantedState extends MainPageState {
+  @override
+  List<Object?> get props => [];
+}
+
+class GalleryPermissionTemporarilyDeniedState extends MainPageState {
+  @override
+  List<Object?> get props => [];
+}
+
+class GalleryPermissionPermanentlyDeniedState extends MainPageState {
+  @override
+  List<Object?> get props => [];
+}

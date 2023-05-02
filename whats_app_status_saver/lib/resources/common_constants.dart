@@ -1,4 +1,9 @@
 class CommonConstants {
   static const whatsAppStatusAndroidPath =
-      "/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/.Statuses";
+      "Android/media/com.whatsapp/WhatsApp/Media/.Statuses";
+
+  static const permissionStatusKey = "permissionStatusKey";
+  // "/media/com.whatsapp/WhatsApp/Media/.Statuses";
+  // "/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/";
+  // "/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/.Statuses";
 }

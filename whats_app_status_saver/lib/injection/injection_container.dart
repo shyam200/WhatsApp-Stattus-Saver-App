@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../business_layer/image_bloc/main_page_bloc.dart';
 import '../core/access_permissions/access_permissions_wrapper.dart';
@@ -10,8 +11,10 @@ final di = GetIt.instance;
 
 Future<void> init() async {
   //!Bloc
-  di.registerFactory<MainPageBloc>(
-      () => MainPageBloc(accessPermissionsWrapper: di()));
+  di.registerFactory<MainPageBloc>(() => MainPageBloc(
+        accessPermissionsWrapper: di(),
+        sharedPreferences: di(),
+      ));
   //!Repository
   //!Data Provider
   //!View logic
@@ -19,4 +22,8 @@ Future<void> init() async {
   //! Access Permissions
   di.registerLazySingleton<AccessPermissionsWrapper>(
       () => AccessPermissionsWrapper());
+
+  //! Shared preferences
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  di.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }

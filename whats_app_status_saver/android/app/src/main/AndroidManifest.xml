@@ -1,8 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
     package="com.example.whats_app_status_saver">
+<!-- <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" /> -->
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.INTERNET"/> 
+<!-- <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/> -->
    <application
         android:label="whats_app_status_saver"
         android:name="${applicationName}"

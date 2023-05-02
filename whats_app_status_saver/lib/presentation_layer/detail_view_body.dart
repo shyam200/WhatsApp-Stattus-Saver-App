@@ -19,12 +19,12 @@ class _ImageVideoDetailViewBodyState extends State<ImageVideoDetailViewBody> {
     print('${widget.isVideoDetailView}');
     return Container(
         padding: const EdgeInsets.symmetric(
-            horizontal: MarginKeys.commonHorizontalPadding,
-            vertical: MarginKeys.commonVerticalPadding),
+            horizontal: MarginKeys.commonHorzontalAndVerticalPadding,
+            vertical: MarginKeys.commonHorzontalAndVerticalPadding),
         child: Column(
           children: [
             const SizedBox(height: 300, child: Placeholder()),
-            Spacer(),
+            const Spacer(),
             SafeArea(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -40,7 +40,7 @@ class _ImageVideoDetailViewBodyState extends State<ImageVideoDetailViewBody> {
                           onTap: () {
                             log('print pdf');
                           })
-                      : SizedBox(),
+                      : const SizedBox(),
                   _buildIconButton(
                       icon: Icons.share,
                       onTap: () {

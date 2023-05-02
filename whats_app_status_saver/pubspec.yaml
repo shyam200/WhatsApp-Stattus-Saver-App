@@ -49,6 +49,9 @@ dependencies:
   get_it: ^7.2.0
   equatable: ^2.0.5
   device_info_plus: ^8.1.0
+  file_picker: ^5.2.6
+  saf: ^1.0.3+4
+  shared_preferences: ^2.1.0
 
 dev_dependencies:
   flutter_test:

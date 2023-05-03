@@ -10,8 +10,8 @@ import '../grid_view_builder.dart';
 
 class ImagePage extends StatefulWidget {
   final MainPageBloc bloc;
-  final List<File> filesList;
-  const ImagePage({super.key, required this.bloc, required this.filesList});
+  final List<File> imagesList;
+  const ImagePage({super.key, required this.bloc, required this.imagesList});
 
   @override
   State<ImagePage> createState() => _ImagePageState();
@@ -31,14 +31,11 @@ class _ImagePageState extends State<ImagePage> {
       listener: (context, state) {
         if (state is GalleryFilesLoadedState) {
           // widget.bloc.add(GetWhatsAppStatusesEvent());
-          filesPath = state.filesList;
+          // filesPath = state.imagesList;
         }
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            leading: Icon(Icons.menu),
-          ),
           body: state is MainPageLoadingState
               ? _buildLoadingIndicator()
               : _buildImageBody(),
@@ -56,17 +53,18 @@ class _ImagePageState extends State<ImagePage> {
   }
 
   _buildImageBody() {
-    return widget.filesList.isNotEmpty
+    return widget.imagesList.isNotEmpty
         ? SafeArea(
             child: Container(
+              color: Colors.grey,
               padding: const EdgeInsets.symmetric(
                 horizontal: MarginKeys.commonHorzontalAndVerticalPadding,
                 vertical: MarginKeys.commonHorzontalAndVerticalPadding,
               ),
               child: GridViewBuilder(
                 bloc: widget.bloc,
-                itemCount: 8,
-                filesPath: widget.filesList,
+                itemCount: widget.imagesList.length,
+                filesPath: widget.imagesList,
               ),
             ),
           )

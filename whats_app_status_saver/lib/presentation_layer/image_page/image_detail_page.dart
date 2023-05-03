@@ -1,16 +1,18 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whats_app_status_saver/business_layer/image_bloc/main_page_bloc.dart';
-import 'package:whats_app_status_saver/business_layer/image_bloc/main_page_state.dart';
-import 'package:whats_app_status_saver/injection/injection_container.dart';
 
+import '../../business_layer/image_bloc/main_page_bloc.dart';
+import '../../business_layer/image_bloc/main_page_state.dart';
+import '../../injection/injection_container.dart';
 import '../detail_view_body.dart';
 
 class ImageDetailPage extends StatefulWidget {
   final MainPageBloc bloc;
-  const ImageDetailPage({super.key, required this.bloc});
+  final File image;
+  const ImageDetailPage({super.key, required this.bloc, required this.image});
 
   @override
   State<ImageDetailPage> createState() => _ImageDetailPageState();
@@ -39,7 +41,9 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(),
-          body: const ImageVideoDetailViewBody(),
+          body: ImageVideoDetailViewBody(
+            detailViewbody: widget.image,
+          ),
         );
       },
     );

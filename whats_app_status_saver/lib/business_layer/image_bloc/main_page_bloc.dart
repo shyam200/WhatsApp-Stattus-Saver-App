@@ -66,8 +66,10 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
       GetWhatsAppStatusesEvent event, Emitter<MainPageState> emit) async {
     emit(MainPageLoadingState());
 
-    List<String> paths = [];
-    List<File> filesList = [];
+    List<String> imagePaths = [];
+    List<String> videosPaths = [];
+    List<File> imageFileList = [];
+    List<File> videosFileList = [];
     var cachedFilesPath = await event.dirPath.cache();
     // await dirPath.sync();
 
@@ -76,19 +78,26 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
 
       for (String path in cachedFilesPath) {
         if (path.endsWith(".jpg")) {
-          paths.add(path);
+          imagePaths.add(path);
+        } else if (path.endsWith('.mp4')) {
+          videosPaths.add(path);
         }
       }
     }
-    //CREATE FILE WITH PATHS
+    //CREATE FILE WITH imagePaths
 
-    for (var path in paths) {
-      filesList.add(File(path));
+    for (var path in imagePaths) {
+      imageFileList.add(File(path));
     }
 
-    log('listed file:--- $paths');
+    for (var path in videosPaths) {
+      videosFileList.add(File(path));
+    }
 
-    emit(GalleryFilesLoadedState(filesList: filesList));
+    log('listed file:--- $imagePaths');
+
+    emit(GalleryFilesLoadedState(
+        imageFilesList: imageFileList, videoFilesList: videosFileList));
     // await _getGalleryPermission(event, emit);
     // //load whatsApp statuses from Application directory
     // final directoryExt = await getExternalStorageDirectory();

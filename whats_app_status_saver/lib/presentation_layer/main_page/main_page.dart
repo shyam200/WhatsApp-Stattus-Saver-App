@@ -22,7 +22,8 @@ class Mainpage extends StatefulWidget {
 
 class _MainpageState extends State<Mainpage> {
   late MainPageBloc _mainPageBloc;
-  List<File>? filesList;
+  List<File>? imagesList;
+  List<File>? videosList;
   bool isGranted = false;
   @override
   void initState() {
@@ -40,7 +41,8 @@ class _MainpageState extends State<Mainpage> {
       bloc: _mainPageBloc,
       listener: (context, state) {
         if (state is GalleryFilesLoadedState) {
-          filesList = state.filesList;
+          imagesList = state.imageFilesList;
+          videosList = state.videoFilesList;
         } else if (state is GalleryPermissionDialogState) {
           _showSeekPermissionDialog();
         } else if (state is GalleryPermissionAllowedState) {
@@ -55,6 +57,35 @@ class _MainpageState extends State<Mainpage> {
       },
       builder: (context, state) {
         return Scaffold(
+          appBar: AppBar(),
+          drawer: Drawer(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  DrawerHeader(
+                    decoration: const BoxDecoration(color: Colors.teal),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Ws Saver Menu',
+                        style: TextStyles.headingText.copyWith(fontSize: 24),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.favorite),
+                    title: const Text('Favourites'),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.dark_mode),
+                    title: const Text('Dark mode'),
+                    onTap: () {},
+                  )
+                ],
+              )),
           body: !isGranted
               ? _buildNoPermissionBody()
               : _getNavigationBaritemBody()[_currentIndex],
@@ -80,11 +111,11 @@ class _MainpageState extends State<Mainpage> {
     return [
       ImagePage(
         bloc: _mainPageBloc,
-        filesList: filesList ?? [],
+        imagesList: imagesList ?? [],
       ),
       Videopage(
         bloc: _mainPageBloc,
-        filesList: filesList ?? [],
+        filesList: videosList ?? [],
       )
     ];
   }

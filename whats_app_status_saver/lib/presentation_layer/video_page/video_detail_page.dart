@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../detail_view_body.dart';
 
 class VideoDetailPage extends StatefulWidget {
-  const VideoDetailPage({super.key});
+  final File video;
+  const VideoDetailPage({super.key, required this.video});
 
   @override
   State<VideoDetailPage> createState() => _VideoDetailPageState();
@@ -14,7 +17,8 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const ImageVideoDetailViewBody(
+      body: ImageVideoDetailViewBody(
+        detailViewbody: widget.video,
         isVideoDetailView: true,
       ),
     );

@@ -32,9 +32,11 @@ class GalleryPermissionTemporarilyDeniedState extends MainPageState {}
 class GalleryPermissionPermanentlyDeniedState extends MainPageState {}
 
 class GalleryFilesLoadedState extends MainPageState {
-  final List<File>? filesList;
+  final List<File>? imageFilesList;
+  final List<File>? videoFilesList;
 
-  const GalleryFilesLoadedState({required this.filesList});
+  const GalleryFilesLoadedState(
+      {required this.imageFilesList, required this.videoFilesList});
   @override
-  List<Object?> get props => [filesList];
+  List<Object?> get props => [imageFilesList, videoFilesList];
 }

@@ -13,3 +13,5 @@ class ImagePageLoadingState extends ImagePageState {}
 class GalleryImageDownloadedSuccessState extends ImagePageState {
   const GalleryImageDownloadedSuccessState();
 }
+
+class ImageAddedToWishlistState extends ImagePageState {}

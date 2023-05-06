@@ -12,6 +12,7 @@ import '../../resources/string_keys.dart';
 import '../../resources/text_styles.dart';
 import '../image_page/image_page.dart';
 import '../video_page/video_page.dart';
+import 'widgets/ws_drawer.dart';
 
 class Mainpage extends StatefulWidget {
   const Mainpage({super.key});
@@ -58,34 +59,7 @@ class _MainpageState extends State<Mainpage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(),
-          drawer: Drawer(
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  DrawerHeader(
-                    decoration: const BoxDecoration(color: Colors.teal),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Ws Saver Menu',
-                        style: TextStyles.headingText.copyWith(fontSize: 24),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.favorite),
-                    title: const Text('Favourites'),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.dark_mode),
-                    title: const Text('Dark mode'),
-                    onTap: () {},
-                  )
-                ],
-              )),
+          drawer: const WSDrawer(),
           body: !isGranted
               ? _buildNoPermissionBody()
               : _getNavigationBaritemBody()[_currentIndex],

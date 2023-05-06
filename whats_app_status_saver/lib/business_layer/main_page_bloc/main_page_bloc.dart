@@ -19,7 +19,6 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     on<GetStatusGalleryPermissionEvent>(_checkPermissionStatus);
     on<GetGalleryPermissionEvent>(_getFileAccessPermission);
     on<GetWhatsAppStatusesEvent>(_getWhatsAppStatuses);
-    // on<GetStatusDownloadEvent>(_downloadStatusOnGallery);
   }
 
 //Method to check the permission status if user has already granted
@@ -62,23 +61,6 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
           CommonConstants.permissionStatusKey, isGranted);
     }
   }
-
-//Method to save images and videos to gallery in android and photos on IOS
-  // FutureOr<void> _downloadStatusOnGallery(
-  //     GetStatusDownloadEvent event, Emitter<MainPageState> emit) async {
-  //   try {
-  //     emit(MainPageLoadingState());
-  //     if (event.isVideoDetailView) {
-  //       await GallerySaver.saveVideo(event.url);
-  //       emit(const GalleryDownloadedSuccessState(isVideo: true));
-  //     } else {
-  //       await GallerySaver.saveImage(event.url);
-  //       emit(const GalleryDownloadedSuccessState(isVideo: false));
-  //     }
-  //   } catch (exception, stackTrace) {
-  //     log('exception:- $exception \nstackTrace:- $stackTrace');
-  //   }
-  // }
 
   void _getWhatsAppStatuses(
       GetWhatsAppStatusesEvent event, Emitter<MainPageState> emit) async {

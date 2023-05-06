@@ -66,7 +66,6 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                     const Spacer(),
                     WSDetailViewButtons(
                       onDownloadTap: _onDownloadTap,
-                      onWishlistTap: _onWishlistTap,
                       onShareTap: _onShareTap,
                     )
                   ],
@@ -89,5 +88,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
 
   _onWishlistTap() {}
 
-  _onShareTap() {}
+  _onShareTap() {
+    widget.bloc.add(StatusVideoShareEvent(widget.video));
+  }
 }

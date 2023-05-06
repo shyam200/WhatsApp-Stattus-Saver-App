@@ -13,3 +13,5 @@ class VideoPageLoadingState extends VideoPageState {}
 class GalleryVideoDownloadedSuccessState extends VideoPageState {
   const GalleryVideoDownloadedSuccessState();
 }
+
+class VideoAddedToWishlistState extends VideoPageState {}

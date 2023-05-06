@@ -44,7 +44,7 @@ dependencies:
   video_player: ^2.6.0 
   chewie: ^1.4.0
   provider: ^6.0.5
-  share_plus: ^6.3.1
+  share_plus: ^6.3.4
   flutter_bloc: ^8.1.2
   get_it: ^7.2.0
   equatable: ^2.0.5

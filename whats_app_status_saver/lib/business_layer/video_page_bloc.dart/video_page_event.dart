@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 abstract class VideoPageEvent extends Equatable {
@@ -14,3 +16,13 @@ class GetStatusVideoDownloadEvent extends VideoPageEvent {
   @override
   List<Object?> get props => [url];
 }
+
+class StatusVideoShareEvent extends VideoPageEvent {
+  final File videoFile;
+
+  const StatusVideoShareEvent(this.videoFile);
+  @override
+  List<Object?> get props => [videoFile];
+}
+
+class StatusVideoWishlistAddEvent extends VideoPageEvent {}

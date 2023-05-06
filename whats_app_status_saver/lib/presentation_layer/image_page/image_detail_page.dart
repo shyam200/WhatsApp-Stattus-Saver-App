@@ -38,8 +38,8 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
             appBar: AppBar(),
             body: Container(
                 padding: const EdgeInsets.only(
-                    // horizontal: MarginKeys.commonHorzontalAndVerticalPadding,
-                    bottom: MarginKeys.commonHorzontalAndVerticalPadding),
+                  bottom: MarginKeys.commonHorzontalAndVerticalPadding,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -47,7 +47,6 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
                     const Spacer(),
                     WSDetailViewButtons(
                       onDownloadTap: _onDownloadTap,
-                      onWishlistTap: _onWishlistTap,
                       onShareTap: _onShareTap,
                     )
                   ],
@@ -67,12 +66,16 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
   }
 
   _onDownloadTap() {
-    widget.bloc.add(GetStatusImageDownloadEvent(
+    widget.bloc.add(StatusImageDownloadEvent(
       url: widget.image.path,
     ));
   }
 
-  _onWishlistTap() {}
+  // _onWishlistTap() {
+  //   widget.bloc.add(StatusImageWishlistAddEvent());
+  // }
 
-  _onShareTap() {}
+  _onShareTap() {
+    widget.bloc.add(StatusImageShareEvent(widget.image));
+  }
 }

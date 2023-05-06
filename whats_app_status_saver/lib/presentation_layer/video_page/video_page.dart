@@ -2,27 +2,32 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:whats_app_status_saver/presentation_layer/video_page/video_detail_page.dart';
 
-import '../../business_layer/image_bloc/main_page_bloc.dart';
+import '../../business_layer/video_page_bloc.dart/video_page_bloc.dart';
+import '../../injection/injection_container.dart';
 import '../../resources/margin_keys.dart';
+import '../../resources/text_styles.dart';
 import '../grid_view_builder.dart';
 
 class Videopage extends StatefulWidget {
-  final MainPageBloc bloc;
   final List<File> filesList;
-  const Videopage({super.key, required this.bloc, required this.filesList});
+  const Videopage({super.key, required this.filesList});
 
   @override
   State<Videopage> createState() => _VideopageState();
 }
 
 class _VideopageState extends State<Videopage> {
+  late VideoPageBloc _videoPageBloc;
   List<File> thumbnails = [];
 
   @override
   void initState() {
     super.initState();
+    _videoPageBloc = di<VideoPageBloc>();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // setState(() {
       _getVideosThumbnail();
@@ -32,28 +37,38 @@ class _VideopageState extends State<Videopage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-      color: Colors.grey,
-      padding: const EdgeInsets.symmetric(
-        horizontal: MarginKeys.commonHorzontalAndVerticalPadding,
-        vertical: MarginKeys.commonHorzontalAndVerticalPadding,
-      ),
-      child: widget.filesList.isNotEmpty
-          ? thumbnails.isNotEmpty
-              ? GridViewBuilder(
-                  bloc: widget.bloc,
-                  itemCount: widget.filesList.length,
-                  isVideoView: true,
-                  videoFiles: widget.filesList,
-                  thumbnails: thumbnails)
-              : const Center(
-                  child: CircularProgressIndicator(),
-                )
-          : const Center(
-              child: Text('No Video found!'),
-            ),
-    ));
+    return BlocConsumer(
+      bloc: _videoPageBloc,
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+            body: Container(
+          color: Colors.blueGrey,
+          padding: const EdgeInsets.symmetric(
+            horizontal: MarginKeys.commonHorzontalAndVerticalPadding,
+            vertical: MarginKeys.commonHorzontalAndVerticalPadding,
+          ),
+          child: widget.filesList.isNotEmpty
+              ? thumbnails.isNotEmpty
+                  ? GridViewBuilder(
+                      itemCount: widget.filesList.length,
+                      isVideoView: true,
+                      videoFiles: widget.filesList,
+                      thumbnails: thumbnails,
+                      onTapCallback: _navigateVideoDetailView,
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    )
+              : Center(
+                  child: Text(
+                    'No Video found!',
+                    style: TextStyles.bodyText.copyWith(color: Colors.white),
+                  ),
+                ),
+        ));
+      },
+    );
   }
 
   Future _getVideosThumbnail() async {
@@ -63,5 +78,13 @@ class _VideopageState extends State<Videopage> {
       thumbnails.add(File(thumbnail ?? ''));
     }
     setState(() {});
+  }
+
+  _navigateVideoDetailView(int index) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => VideoDetailPage(
+              bloc: _videoPageBloc,
+              video: widget.filesList[index],
+            )));
   }
 }

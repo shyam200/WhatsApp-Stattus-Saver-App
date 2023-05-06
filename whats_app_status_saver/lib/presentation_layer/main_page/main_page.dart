@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../business_layer/image_bloc/main_page_bloc.dart';
-import '../../business_layer/image_bloc/main_page_event.dart';
-import '../../business_layer/image_bloc/main_page_state.dart';
+import '../../business_layer/main_page_bloc/main_page_bloc.dart';
+import '../../business_layer/main_page_bloc/main_page_event.dart';
+import '../../business_layer/main_page_bloc/main_page_state.dart';
 import '../../core/widgets/ws_common_dialog.dart';
 import '../../injection/injection_container.dart';
 import '../../resources/string_keys.dart';
@@ -31,7 +31,7 @@ class _MainpageState extends State<Mainpage> {
     _mainPageBloc = di<MainPageBloc>();
     //Fire initial event on start up to check if permission is given or not if not then ask permission
     // _mainPageBloc.add(GetGalleryPermissionEvent());
-    _mainPageBloc.add(GetGalleryPermissionStatusEvent());
+    _mainPageBloc.add(GetStatusGalleryPermissionEvent());
   }
 
   int _currentIndex = 0;
@@ -110,11 +110,9 @@ class _MainpageState extends State<Mainpage> {
   List<Widget> _getNavigationBaritemBody() {
     return [
       ImagePage(
-        bloc: _mainPageBloc,
         imagesList: imagesList ?? [],
       ),
       Videopage(
-        bloc: _mainPageBloc,
         filesList: videosList ?? [],
       )
     ];

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_status_saver/presentation_layer/main_page/main_page.dart';
 
-import 'image_page/image_page.dart';
+import 'main_page/main_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,13 +14,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 1000)).then((value) =>
+    Future.delayed(const Duration(milliseconds: 1000)).then((value) =>
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => Mainpage())));
+            .push(MaterialPageRoute(builder: (_) => const Mainpage())));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Icon(Icons.sports_volleyball_sharp)));
+    return const Scaffold(
+        body: Center(child: Icon(Icons.sports_volleyball_sharp)));
   }
 }

@@ -40,3 +40,11 @@ class GalleryFilesLoadedState extends MainPageState {
   @override
   List<Object?> get props => [imageFilesList, videoFilesList];
 }
+
+// class GalleryDownloadedSuccessState extends MainPageState {
+//   final bool isVideo;
+
+//   const GalleryDownloadedSuccessState({required this.isVideo});
+//   @override
+//   List<Object?> get props => [isVideo];
+// }

@@ -11,7 +11,22 @@ class MainPageLoadingEvent extends MainPageEvent {}
 
 class GetGalleryPermissionEvent extends MainPageEvent {}
 
-class GetGalleryPermissionStatusEvent extends MainPageEvent {}
+class GetStatusGalleryPermissionEvent extends MainPageEvent {}
+
+// class GetStatusDownloadEvent extends MainPageEvent {
+//   final String url;
+//   final bool isVideoDetailView;
+
+//   const GetStatusDownloadEvent(
+//       {required this.url, required this.isVideoDetailView});
+
+//   @override
+//   List<Object?> get props => [url, isVideoDetailView];
+// }
+
+class GetStatusWishlistEvent extends MainPageEvent {}
+
+class GetStatusShareEvent extends MainPageEvent {}
 
 class GetWhatsAppStatusesEvent extends MainPageEvent {
   final Saf dirPath;

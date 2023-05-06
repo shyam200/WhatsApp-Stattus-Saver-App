@@ -4,8 +4,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:saf/saf.dart';
 
-import '../../resources/common_constants.dart';
-
 /// Wrapper class over the methods used to get and request the status of the notification permission and location.
 /// Decouple the libraries implementation to the bloc logic by using this class.
 class AccessPermissionsWrapper {

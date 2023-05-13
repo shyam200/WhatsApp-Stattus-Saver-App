@@ -32,7 +32,7 @@ class _MainpageState extends State<Mainpage> {
     _mainPageBloc = di<MainPageBloc>();
     //Fire initial event on start up to check if permission is given or not if not then ask permission
     // _mainPageBloc.add(GetGalleryPermissionEvent());
-    _mainPageBloc.add(GetStatusGalleryPermissionEvent());
+    _mainPageBloc.add(CheckGalleryPermissionStatusEvent());
   }
 
   int _currentIndex = 0;
@@ -59,10 +59,12 @@ class _MainpageState extends State<Mainpage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(),
-          drawer: const WSDrawer(),
+          drawer: WSDrawer(
+            bloc: _mainPageBloc,
+          ),
           body: !isGranted
               ? _buildNoPermissionBody()
-              : _getNavigationBaritemBody()[_currentIndex],
+              : _getNavigationBarItemBody()[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white70,
             items: _getNavigationBarItems(),
@@ -81,7 +83,7 @@ class _MainpageState extends State<Mainpage> {
     ];
   }
 
-  List<Widget> _getNavigationBaritemBody() {
+  List<Widget> _getNavigationBarItemBody() {
     return [
       ImagePage(
         imagesList: imagesList ?? [],

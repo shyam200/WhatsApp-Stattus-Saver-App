@@ -43,7 +43,7 @@ class _VideopageState extends State<Videopage> {
       builder: (context, state) {
         return Scaffold(
             body: Container(
-          color: Colors.blueGrey,
+          // color: Colors.blueGrey,
           padding: const EdgeInsets.symmetric(
             horizontal: MarginKeys.commonHorzontalAndVerticalPadding,
             vertical: MarginKeys.commonHorzontalAndVerticalPadding,

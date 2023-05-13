@@ -13,7 +13,7 @@ final di = GetIt.instance;
 
 Future<void> init() async {
   //!Bloc
-  di.registerFactory<MainPageBloc>(() => MainPageBloc(
+  di.registerLazySingleton<MainPageBloc>(() => MainPageBloc(
         accessPermissionsWrapper: di(),
         sharedPreferences: di(),
       ));

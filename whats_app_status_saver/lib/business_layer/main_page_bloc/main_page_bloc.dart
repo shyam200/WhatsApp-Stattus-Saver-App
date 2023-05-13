@@ -16,9 +16,10 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   MainPageBloc(
       {required this.accessPermissionsWrapper, required this.sharedPreferences})
       : super(MainPageInitialState()) {
-    on<GetStatusGalleryPermissionEvent>(_checkPermissionStatus);
+    on<CheckGalleryPermissionStatusEvent>(_checkPermissionStatus);
     on<GetGalleryPermissionEvent>(_getFileAccessPermission);
     on<GetWhatsAppStatusesEvent>(_getWhatsAppStatuses);
+    on<ToggleDarkThemeModeEvent>(_switchThemeAppMode);
   }
 
 //Method to check the permission status if user has already granted
@@ -71,7 +72,7 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     List<File> imageFileList = [];
     List<File> videosFileList = [];
     var cachedFilesPath = await event.dirPath.cache();
-    // await dirPath.sync();
+    await event.dirPath.sync();
 
     if (cachedFilesPath != null) {
       //load images
@@ -98,65 +99,13 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
 
     emit(GalleryFilesLoadedState(
         imageFilesList: imageFileList, videoFilesList: videosFileList));
-    // await _getGalleryPermission(event, emit);
-    // //load whatsApp statuses from Application directory
-    // final directoryExt = await getExternalStorageDirectory();
-    // log(directoryExt!.path);
-
-    // final directory = Directory(
-    //     "/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/.Statuses");
-    // if (directory.existsSync()) {
-    //   final items = directory.listSync();
-    //   log(items.toString());
-    // } else {
-    //   log('whatsApp not exists');
-    // }
-    // whatsAppDirectory.
   }
-  // Future _getGalleryPermission(
-  //     MainPageEvent event, Emitter<MainPageState> emit) async {
-  //   // emit(MainPageLoadingState());
-  //   //check if permission is already granted
-  //   final isPermissionAllowed =
-  //       await accessPermissionsWrapper.isGalleryPermissionAllowed();
-  //   if (isPermissionAllowed) {
-  //     // emit(GalleryPermissionGrantedState());
-  //     return true;
-  //   }
 
-  //   // PermissionStatus galleryPermissionStatus =
-  //   //     await accessPermissionsWrapper.checkAndRequestPermission();
-
-  //   if (galleryPermissionStatus.isDenied) {
-  //     return false; // emit(GalleryPermissionTemporarilyDeniedState());
-  //   } else if (galleryPermissionStatus.isPermanentlyDenied ||
-  //       galleryPermissionStatus.isRestricted) {
-  //     return false; // emit(GalleryPermissionPermanentlyDeniedState());
-  //   } else if (galleryPermissionStatus.isGranted ||
-  //       galleryPermissionStatus.isLimited) {
-  //     return true; // emit(GalleryPermissionGrantedState());
-  //   }
-  //   // log('permission status:----$permissionStatus');
-  // }
-
-//   void _getFilesItemsOnOlderAndroid(event, emit) async {
-//     List<File> filesList = [];
-// //HANDLE CASE FOR ANDROID <= 10
-//     await _getGalleryPermission(event, emit);
-//     final directory = Directory(
-//         "/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/.Statuses");
-//     if (directory.existsSync()) {
-//       final items = directory.listSync();
-//       log(items.toString());
-//       for (var element in items) {
-//         filesList.add(File(element.path));
-//       }
-//     } else {
-//       log('whatsApp not exists');
-//     }
-//     log('permanent file list---$_imgFilesList');
-//   }
-
+  void _switchThemeAppMode(
+      ToggleDarkThemeModeEvent event, Emitter<MainPageState> emit) {
+    emit(MainPageLoadingState());
+    emit(ToggleDarkThemeModeState(event.isDarkMode));
+  }
 }
 
 //Request access to /status folder from User

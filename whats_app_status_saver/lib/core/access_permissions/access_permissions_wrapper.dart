@@ -12,10 +12,9 @@ class AccessPermissionsWrapper {
       return await Permission.photos.isGranted ||
           await Permission.photos.isLimited;
     } else if (Platform.isAndroid) {
-      if (await isAndroidGreaterThan10()) {
-        // return await Permission.storage.isGranted ||
-        //     await Permission.storage.isLimited;
-
+      if (await isAndroidGreaterThan12()) {
+        return await Permission.photos.isGranted ||
+            await Permission.photos.isLimited;
       } else {
         return await Permission.storage.isGranted ||
             await Permission.storage.isLimited;
@@ -27,7 +26,12 @@ class AccessPermissionsWrapper {
   Future<bool> checkAndRequestPermission(Saf dirPath) async {
     if (Platform.isAndroid && await isAndroidGreaterThan10()) {
       // return await Permission.storage.request();
+      // if (await isGalleryPermissionAllowed()) {
       return await dirPath.getDirectoryPermission(isDynamic: true) ?? false;
+      // } else {
+      //   await Permission.photos.request();
+      //   return await dirPath.getDirectoryPermission(isDynamic: true) ?? false;
+      // }
     }
 
     // return PermissionStatus.denied;

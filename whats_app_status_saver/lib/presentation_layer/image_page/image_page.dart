@@ -54,7 +54,7 @@ class _ImagePageState extends State<ImagePage> {
     return widget.imagesList.isNotEmpty
         ? SafeArea(
             child: Container(
-              color: Colors.blueGrey,
+              // color: Colors.blueGrey,
               padding: const EdgeInsets.symmetric(
                 horizontal: MarginKeys.commonHorzontalAndVerticalPadding,
                 vertical: MarginKeys.commonHorzontalAndVerticalPadding,

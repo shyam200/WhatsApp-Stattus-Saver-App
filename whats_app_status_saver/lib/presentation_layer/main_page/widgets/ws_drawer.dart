@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:whats_app_status_saver/business_layer/main_page_bloc/main_page_bloc.dart';
+import 'package:whats_app_status_saver/injection/injection_container.dart';
 
+import '../../../business_layer/main_page_bloc/main_page_event.dart';
 import '../../../resources/text_styles.dart';
 
-class WSDrawer extends StatelessWidget {
+class WSDrawer extends StatefulWidget {
+  final MainPageBloc bloc;
   const WSDrawer({
     Key? key,
+    required this.bloc,
   }) : super(key: key);
 
   @override
+  State<WSDrawer> createState() => _WSDrawerState();
+}
+
+class _WSDrawerState extends State<WSDrawer> {
+  bool _isDarkMode = false;
+  @override
   Widget build(BuildContext context) {
     return Drawer(
-        width: MediaQuery.of(context).size.width * 0.6,
+        // width: MediaQuery.of(context).size.width * 0.6,
         child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            _buildDrawerHeader(),
-            _buildDrawerItems(
-                title: 'Dark Mode', icon: Icons.dark_mode, onTap: () {}),
-            _buildDrawerItems(
-                title: 'Share App', icon: Icons.share, onTap: () {}),
-          ],
-        ));
+      padding: EdgeInsets.zero,
+      children: [
+        _buildDrawerHeader(),
+        _buildDrawerItems(
+            title: 'Dark Mode', icon: Icons.dark_mode, onTap: _onTapDarkMode),
+        // _buildDrawerItems(title: 'Share App', icon: Icons.share, onTap: () {}),
+      ],
+    ));
   }
 
   DrawerHeader _buildDrawerHeader() {
@@ -37,7 +47,7 @@ class WSDrawer extends StatelessWidget {
     );
   }
 
-  ListTile _buildDrawerItems({
+  _buildDrawerItems({
     required String title,
     required IconData icon,
     required Function() onTap,
@@ -46,6 +56,27 @@ class WSDrawer extends StatelessWidget {
       leading: Icon(icon),
       title: Text(title),
       onTap: onTap,
+      trailing: SizedBox(
+          width: 50,
+          height: 30,
+          child: Switch(
+              value: _isDarkMode,
+              onChanged: (_) {
+                _toggleSwitch();
+              })),
     );
+  }
+
+  //  return ListTile(
+  _onTapDarkMode() {
+    // Navigator.of(context).pop();
+    _toggleSwitch();
+  }
+
+  _toggleSwitch() {
+    setState(() {
+      _isDarkMode = !_isDarkMode;
+    });
+    di<MainPageBloc>().add(ToggleDarkThemeModeEvent(_isDarkMode));
   }
 }

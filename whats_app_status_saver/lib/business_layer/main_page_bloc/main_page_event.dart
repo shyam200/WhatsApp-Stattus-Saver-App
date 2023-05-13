@@ -11,7 +11,7 @@ class MainPageLoadingEvent extends MainPageEvent {}
 
 class GetGalleryPermissionEvent extends MainPageEvent {}
 
-class GetStatusGalleryPermissionEvent extends MainPageEvent {}
+class CheckGalleryPermissionStatusEvent extends MainPageEvent {}
 
 // class GetStatusDownloadEvent extends MainPageEvent {
 //   final String url;
@@ -35,4 +35,13 @@ class GetWhatsAppStatusesEvent extends MainPageEvent {
   const GetWhatsAppStatusesEvent(this.dirPath);
   @override
   List<Object?> get props => [dirPath];
+}
+
+class ToggleDarkThemeModeEvent extends MainPageEvent {
+  final bool isDarkMode;
+  // final bool isGranted;
+
+  const ToggleDarkThemeModeEvent(this.isDarkMode);
+  @override
+  List<Object?> get props => [isDarkMode];
 }

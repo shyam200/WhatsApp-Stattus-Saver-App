@@ -48,3 +48,12 @@ class GalleryFilesLoadedState extends MainPageState {
 //   @override
 //   List<Object?> get props => [isVideo];
 // }
+
+class ToggleDarkThemeModeState extends MainPageState {
+  final bool isDarkMode;
+  // final bool isGranted;
+
+  const ToggleDarkThemeModeState(this.isDarkMode);
+  @override
+  List<Object?> get props => [isDarkMode];
+}

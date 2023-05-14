@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:whats_app_status_saver/presentation_layer/video_page/video_detail_page.dart';
+import 'video_detail_page.dart';
 
 import '../../business_layer/video_page_bloc.dart/video_page_bloc.dart';
 import '../../injection/injection_container.dart';

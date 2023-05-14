@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_status_saver/resources/text_styles.dart';
+import '../../resources/text_styles.dart';
 
 class WSCommonDialog extends StatefulWidget {
   final String? headingText;

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
-import 'package:whats_app_status_saver/resources/common_constants.dart';
+import '../../resources/common_constants.dart';
 
 import '../../business_layer/video_page_bloc.dart/video_page_bloc.dart';
 import '../../business_layer/video_page_bloc.dart/video_page_event.dart';

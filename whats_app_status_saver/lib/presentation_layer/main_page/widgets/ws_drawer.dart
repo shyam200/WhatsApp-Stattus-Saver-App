@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_status_saver/business_layer/main_page_bloc/main_page_bloc.dart';
-import 'package:whats_app_status_saver/injection/injection_container.dart';
+import '../../../business_layer/main_page_bloc/main_page_bloc.dart';
+import '../../../injection/injection_container.dart';
 
 import '../../../business_layer/main_page_bloc/main_page_event.dart';
 import '../../../resources/text_styles.dart';

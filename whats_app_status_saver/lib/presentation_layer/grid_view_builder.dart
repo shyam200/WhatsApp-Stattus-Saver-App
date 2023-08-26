@@ -8,7 +8,7 @@ import '../resources/margin_keys.dart';
 class GridViewBuilder extends StatelessWidget {
   final int itemCount;
   final bool isVideoView;
-  final List<File>? filesPath;
+  final List? filesPath;
   final List<File> thumbnails;
   final List<File>? videoFiles;
   final Function(int)? onTapCallback;
@@ -48,7 +48,9 @@ class GridViewBuilder extends StatelessWidget {
                   child: SizedBox(
                     width: DimensionKeys.imageWeight,
                     height: DimensionKeys.imageHeight,
-                    child: Image.file(
+                    child:
+                        // Image.memory(filesPath![index])
+                        Image.file(
                       isVideoView ? thumbnails[index] : filesPath![index],
                       fit: BoxFit.cover,
                     ),

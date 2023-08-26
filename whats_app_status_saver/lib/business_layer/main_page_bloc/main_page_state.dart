@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
-import 'package:saf/saf.dart';
 
 abstract class MainPageState extends Equatable {
   const MainPageState();
@@ -16,23 +15,28 @@ class MainPageLoadingState extends MainPageState {}
 class MainPageDataLoadedState extends MainPageState {}
 
 class GalleryPermissionGrantedState extends MainPageState {
-  final Saf dirPath;
+  // final Saf dirPath;
+  final List<File> imageList;
 
-  const GalleryPermissionGrantedState(this.dirPath);
+  const GalleryPermissionGrantedState(this.imageList);
   @override
-  List<Object?> get props => [dirPath];
+  List<Object?> get props => [imageList];
 }
 
 class GalleryPermissionDialogState extends MainPageState {}
 
 class GalleryPermissionAllowedState extends MainPageState {}
 
-class GalleryPermissionTemporarilyDeniedState extends MainPageState {}
+class GalleryPermissionNotAllowedState extends MainPageState {}
 
-class GalleryPermissionPermanentlyDeniedState extends MainPageState {}
+class TechnicalErrorState extends MainPageState {}
+
+// class GalleryPermissionTemporarilyDeniedState extends MainPageState {}
+
+// class GalleryPermissionPermanentlyDeniedState extends MainPageState {}
 
 class GalleryFilesLoadedState extends MainPageState {
-  final List<File>? imageFilesList;
+  final List? imageFilesList;
   final List<File>? videoFilesList;
 
   const GalleryFilesLoadedState(

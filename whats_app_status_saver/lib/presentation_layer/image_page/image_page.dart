@@ -11,7 +11,7 @@ import '../grid_view_builder.dart';
 import 'image_detail_page.dart';
 
 class ImagePage extends StatefulWidget {
-  final List<File> imagesList;
+  final List imagesList;
   const ImagePage({super.key, required this.imagesList});
 
   @override

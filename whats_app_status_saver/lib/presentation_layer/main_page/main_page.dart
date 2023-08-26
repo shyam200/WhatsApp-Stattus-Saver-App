@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../business_layer/main_page_bloc/main_page_bloc.dart';
@@ -21,21 +23,41 @@ class Mainpage extends StatefulWidget {
   State<Mainpage> createState() => _MainpageState();
 }
 
-class _MainpageState extends State<Mainpage> {
+class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
   late MainPageBloc _mainPageBloc;
-  List<File>? imagesList;
+  List? imagesList;
   List<File>? videosList;
-  bool isGranted = false;
+  bool isPermissionGranted = false;
+  int _currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _mainPageBloc = di<MainPageBloc>();
     //Fire initial event on start up to check if permission is given or not if not then ask permission
     // _mainPageBloc.add(GetGalleryPermissionEvent());
-    _mainPageBloc.add(CheckGalleryPermissionStatusEvent());
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _mainPageBloc.add(CheckGalleryPermissionStatusEvent());
+    });
   }
 
-  int _currentIndex = 0;
+  //ApplifeCylcle state to syn directories each time when user comes forground
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (AppLifecycleState.resumed == state) {
+      log('resume.......');
+      // _mainPageBloc.add(CheckGalleryPermissionStatusEvent());
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer(
@@ -44,16 +66,12 @@ class _MainpageState extends State<Mainpage> {
         if (state is GalleryFilesLoadedState) {
           imagesList = state.imageFilesList;
           videosList = state.videoFilesList;
-        } else if (state is GalleryPermissionDialogState) {
-          _showSeekPermissionDialog();
         } else if (state is GalleryPermissionAllowedState) {
-          _mainPageBloc.add(GetGalleryPermissionEvent());
-        } else if (state is GalleryPermissionTemporarilyDeniedState) {
-          isGranted = false;
-          // _showSeekPermissionDialog();
-        } else if (state is GalleryPermissionGrantedState) {
-          isGranted = true;
-          _mainPageBloc.add(GetWhatsAppStatusesEvent(state.dirPath));
+          isPermissionGranted = true;
+          _mainPageBloc.add(GetWsFilesEvent());
+        } else if (state is GalleryPermissionNotAllowedState) {
+          isPermissionGranted = false;
+          _showSeekPermissionDialog();
         }
       },
       builder: (context, state) {
@@ -62,9 +80,16 @@ class _MainpageState extends State<Mainpage> {
           drawer: WSDrawer(
             bloc: _mainPageBloc,
           ),
-          body: !isGranted
-              ? _buildNoPermissionBody()
-              : _getNavigationBarItemBody()[_currentIndex],
+          body: Stack(
+            children: [
+              !isPermissionGranted
+                  ? _buildNoPermissionBody()
+                  : _getNavigationBarItemBody()[_currentIndex],
+              state is MainPageLoadingState
+                  ? _buildWsLoader()
+                  : const SizedBox(),
+            ],
+          ),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white70,
             items: _getNavigationBarItems(),
@@ -129,5 +154,13 @@ class _MainpageState extends State<Mainpage> {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+  _buildWsLoader() {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: Colors.blue,
+      ),
+    );
   }
 }

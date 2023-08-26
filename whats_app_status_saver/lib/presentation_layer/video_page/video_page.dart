@@ -35,6 +35,18 @@ class _VideopageState extends State<Videopage> {
     });
   }
 
+  // @override
+  // void didUpdateWidget(covariant Videopage oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if (oldWidget.filesList != widget.filesList) {
+  //     SchedulerBinding.instance.addPostFrameCallback((_) {
+  //       // setState(() {
+  //       _getVideosThumbnail();
+  //       // });
+  //     });
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer(

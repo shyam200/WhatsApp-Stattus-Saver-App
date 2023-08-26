@@ -2,10 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:saf/saf.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/access_permissions/access_permissions_wrapper.dart';
+import '../../core/method_channels/ws_platform_channel.dart';
+import '../../injection/injection_container.dart';
 import '../../resources/common_constants.dart';
 import 'main_page_event.dart';
 import 'main_page_state.dart';
@@ -13,44 +14,80 @@ import 'main_page_state.dart';
 class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   final AccessPermissionsWrapper accessPermissionsWrapper;
   final SharedPreferences sharedPreferences;
-  MainPageBloc(
-      {required this.accessPermissionsWrapper, required this.sharedPreferences})
-      : super(MainPageInitialState()) {
+  MainPageBloc({
+    required this.accessPermissionsWrapper,
+    required this.sharedPreferences,
+  }) : super(MainPageInitialState()) {
     on<CheckGalleryPermissionStatusEvent>(_checkPermissionStatus);
+    on<GetWsFilesEvent>(_getWsFiles);
     on<GetGalleryPermissionEvent>(_getFileAccessPermission);
-    on<GetWhatsAppStatusesEvent>(_getWhatsAppStatuses);
+    // on<GetWhatsAppStatusesEvent>(_getWhatsAppStatuses);
     on<ToggleDarkThemeModeEvent>(_switchThemeAppMode);
   }
 
 //Method to check the permission status if user has already granted
-  void _checkPermissionStatus(
-      MainPageEvent event, Emitter<MainPageState> emit) {
+  void _checkPermissionStatus(CheckGalleryPermissionStatusEvent event,
+      Emitter<MainPageState> emit) async {
+    emit(MainPageLoadingState());
     final isPermissionAllowed =
-        sharedPreferences.getBool(CommonConstants.permissionStatusKey) ?? false;
+        await di<WSPlatformChannel>().isPermissionAllowed();
+    // sharedPreferences.getBool(CommonConstants.permissionStatusKey) ?? false;
 
     if (isPermissionAllowed) {
       emit(GalleryPermissionAllowedState());
     } else {
-      emit(GalleryPermissionDialogState());
+      emit(GalleryPermissionNotAllowedState());
+      // emit(GalleryPermissionDialogState());
     }
+  }
+
+  void _getWsFiles(GetWsFilesEvent event, Emitter<MainPageState> emit) async {
+    emit(MainPageLoadingState());
+
+    var result = await di<WSPlatformChannel>().getCacheFilesPath();
+
+    var filesList = List<String>.from(result);
+
+    List<File> imageFileList = [];
+    List<File> videosFileList = [];
+
+    for (var path in filesList) {
+      if (path.endsWith('.jpg')) {
+        imageFileList.add(File(path));
+      } else if (path.endsWith('.mp4')) {
+        videosFileList.add(File(path));
+      }
+    }
+
+    emit(GalleryFilesLoadedState(
+        imageFilesList: imageFileList, videoFilesList: videosFileList));
   }
 
   void _getFileAccessPermission(
       MainPageEvent event, Emitter<MainPageState> emit) async {
     emit(MainPageLoadingState());
-    //GRANT permission
-    // HANDLE CASE FOR ANDROID > 10
-    final url = Uri(path: CommonConstants.whatsAppStatusAndroidPath);
-    Saf dirPath = Saf(url.toString());
+    // //GRANT permission
+    // // HANDLE CASE FOR ANDROID > 10
+    // final url = Uri(path: CommonConstants.whatsAppStatusAndroidPath);
+    // Saf dirPath = Saf(url.toString());
 
-    final isGranted =
-        await accessPermissionsWrapper.checkAndRequestPermission(dirPath);
+    // final isGranted =
+    //     await accessPermissionsWrapper.checkAndRequestPermission(dirPath);
 
-    if (isGranted) {
-      _checkAndSetPermission(isGranted);
-      emit(GalleryPermissionGrantedState(dirPath));
+    // if (isGranted) {
+    //   _checkAndSetPermission(isGranted);
+    //   // emit(GalleryPermissionGrantedState(dirPath));
+    // } else {
+    //   emit(GalleryPermissionTemporarilyDeniedState());
+    // }
+
+//Ask directory permission
+    var isSuccess = await di<WSPlatformChannel>().getDirectoryPermission();
+    if (isSuccess) {
+      emit(GalleryPermissionAllowedState());
     } else {
-      emit(GalleryPermissionTemporarilyDeniedState());
+      //if permission not granted due to any reason
+      emit(TechnicalErrorState());
     }
   }
 
@@ -71,34 +108,42 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     List<String> videosPaths = [];
     List<File> imageFileList = [];
     List<File> videosFileList = [];
-    var cachedFilesPath = await event.dirPath.cache();
-    await event.dirPath.sync();
+    // await event.dirPath.clearCache();
+    // var cachedFilesPath = await event.dirPath.cache(); //will work
+    // var filesPath = await event.dirPath
+    //     .getFilesPath(); //will not work due to OS error since can't access content directly
+    // var cachedFilesPath2 = await event.dirPath.getCachedFilesPath(); //will work
+    // log('cache path-  $cachedFilesPath');
 
-    if (cachedFilesPath != null) {
-      //load images
+    // log('getFilesPath-  $filesPath');
+    // log('getCachedFilesPath-  $cachedFilesPath2');
+    // await event.dirPath.sync();
+    // cachedFilesPath = cachedFilesPath2;
+    // if (cachedFilesPath != null) {
+    //   //load images
 
-      for (String path in cachedFilesPath) {
-        if (path.endsWith(".jpg")) {
-          imagePaths.add(path);
-        } else if (path.endsWith('.mp4')) {
-          videosPaths.add(path);
-        }
-      }
-    }
+    //   for (String path in cachedFilesPath) {
+    //     if (path.endsWith(".jpg")) {
+    //       imagePaths.add(path);
+    //     } else if (path.endsWith('.mp4')) {
+    //       videosPaths.add(path);
+    //     }
+    //   }
+    // }
     //CREATE FILE WITH imagePaths
 
-    for (var path in imagePaths) {
-      imageFileList.add(File(path));
-    }
+    // for (var path in imagePaths) {
+    //   imageFileList.add(File(path));
+    // }
 
-    for (var path in videosPaths) {
-      videosFileList.add(File(path));
-    }
+    // for (var path in videosPaths) {
+    //   videosFileList.add(File(path));
+    // }
 
     log('listed file:--- $imagePaths');
 
     emit(GalleryFilesLoadedState(
-        imageFilesList: imageFileList, videoFilesList: videosFileList));
+        imageFilesList: event.imageList, videoFilesList: videosFileList));
   }
 
   void _switchThemeAppMode(
@@ -153,8 +198,8 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
 // bool? isGranted = await dirPath.sync();
 // final x = Directory('fdsfs');
 // final y = x.listSync();
-    // // final dir = await getExternalStorageDirectory();
-    // final dir = await getExternalStorageDirectory();
-    // final extds = await getExternalStorageDirectories();
-    // final applicationDir = await getApplicationDocumentsDirectory();
-    // // final lib = await getLibraryDirectory();
+// // final dir = await getExternalStorageDirectory();
+// final dir = await getExternalStorageDirectory();
+// final extds = await getExternalStorageDirectories();
+// final applicationDir = await getApplicationDocumentsDirectory();
+// // final lib = await getLibraryDirectory();

@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
-import 'package:saf/saf.dart';
 
 abstract class MainPageEvent extends Equatable {
   const MainPageEvent();
@@ -10,6 +11,10 @@ abstract class MainPageEvent extends Equatable {
 class MainPageLoadingEvent extends MainPageEvent {}
 
 class GetGalleryPermissionEvent extends MainPageEvent {}
+
+class GetWsFilesEvent extends MainPageEvent {}
+
+class GetPermissionDialogEvent extends MainPageEvent {}
 
 class CheckGalleryPermissionStatusEvent extends MainPageEvent {}
 
@@ -29,12 +34,13 @@ class GetStatusWishlistEvent extends MainPageEvent {}
 class GetStatusShareEvent extends MainPageEvent {}
 
 class GetWhatsAppStatusesEvent extends MainPageEvent {
-  final Saf dirPath;
+  // final Saf dirPath;
+  final List<File> imageList;
   // final bool isGranted;
 
-  const GetWhatsAppStatusesEvent(this.dirPath);
+  const GetWhatsAppStatusesEvent(this.imageList);
   @override
-  List<Object?> get props => [dirPath];
+  List<Object?> get props => [imageList];
 }
 
 class ToggleDarkThemeModeEvent extends MainPageEvent {

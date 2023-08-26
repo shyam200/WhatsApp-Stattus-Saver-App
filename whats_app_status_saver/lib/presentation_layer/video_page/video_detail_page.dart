@@ -86,8 +86,6 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
     ));
   }
 
-  _onWishlistTap() {}
-
   _onShareTap() {
     widget.bloc.add(StatusVideoShareEvent(widget.video));
   }

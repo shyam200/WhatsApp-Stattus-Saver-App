@@ -25,13 +25,7 @@ class AccessPermissionsWrapper {
 
   Future<bool> checkAndRequestPermission(Saf dirPath) async {
     if (Platform.isAndroid && await isAndroidGreaterThan10()) {
-      // return await Permission.storage.request();
-      // if (await isGalleryPermissionAllowed()) {
       return await dirPath.getDirectoryPermission(isDynamic: true) ?? false;
-      // } else {
-      //   await Permission.photos.request();
-      //   return await dirPath.getDirectoryPermission(isDynamic: true) ?? false;
-      // }
     }
 
     // return PermissionStatus.denied;

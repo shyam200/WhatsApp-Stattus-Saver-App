@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
+import 'package:whats_app_status_saver/core/widgets/ws_loader.dart';
+import 'package:whats_app_status_saver/resources/string_keys.dart';
 import '../../resources/common_constants.dart';
 
 import '../../business_layer/video_page_bloc.dart/video_page_bloc.dart';
@@ -29,8 +31,9 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
     super.initState();
     _videoPlayerController = VideoPlayerController.file(widget.video)
       ..initialize().then((value) {
-        setState(() {});
+        // setState(() {});
         // _videoPlayerController.play();
+        widget.bloc.add(StatusVideoInitialiseEvent());
       });
   }
 
@@ -47,7 +50,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
       listener: (context, state) {
         if (state is GalleryVideoDownloadedSuccessState) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Video Saved Successfully!'),
+            content: Text(StringKeys.videoSuccessTxt),
             duration:
                 Duration(seconds: CommonConstants.snackBarDurationSeconds),
           ));
@@ -56,20 +59,22 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(),
-            body: Container(
-                padding: const EdgeInsets.only(
-                    bottom: MarginKeys.commonHorzontalAndVerticalPadding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildVideoPlayerBody(),
-                    const Spacer(),
-                    WSDetailViewButtons(
-                      onDownloadTap: _onDownloadTap,
-                      onShareTap: _onShareTap,
-                    )
-                  ],
-                )));
+            body: state is VideoPageLoadingState
+                ? const WsLoader()
+                : Container(
+                    padding: const EdgeInsets.only(
+                        bottom: MarginKeys.commonHorzontalAndVerticalPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _buildVideoPlayerBody(),
+                        const Spacer(),
+                        WSDetailViewButtons(
+                          onDownloadTap: _onDownloadTap,
+                          onShareTap: _onShareTap,
+                        )
+                      ],
+                    )));
       },
     );
   }

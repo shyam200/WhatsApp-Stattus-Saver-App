@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class WSAppTheme {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
-      primarySwatch: Colors.red,
       primaryColor: isDarkTheme ? Colors.black : Colors.white,
-
-      backgroundColor: isDarkTheme ? Colors.black : const Color(0xffF1F5FB),
 
       indicatorColor:
           isDarkTheme ? const Color(0xff0E1D36) : const Color(0xffCBDCF8),
@@ -35,6 +32,8 @@ class WSAppTheme {
       ),
       textSelectionTheme: TextSelectionThemeData(
           selectionColor: isDarkTheme ? Colors.white : Colors.black),
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(
+          background: isDarkTheme ? Colors.black : const Color(0xffF1F5FB)),
     );
   }
 }

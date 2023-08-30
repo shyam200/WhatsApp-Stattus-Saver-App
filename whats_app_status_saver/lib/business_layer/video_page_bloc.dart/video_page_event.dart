@@ -26,3 +26,13 @@ class StatusVideoShareEvent extends VideoPageEvent {
 }
 
 class StatusVideoWishlistAddEvent extends VideoPageEvent {}
+
+class GenerateVideosThumbnailEvent extends VideoPageEvent {
+  final List<File> videoFiles;
+
+  const GenerateVideosThumbnailEvent(this.videoFiles);
+  @override
+  List<Object?> get props => [videoFiles];
+}
+
+class StatusVideoInitialiseEvent extends VideoPageEvent {}

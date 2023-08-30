@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whats_app_status_saver/resources/string_keys.dart';
 
 import '../../business_layer/image_page_bloc.dart/image_page_bloc.dart';
-import '../../business_layer/image_page_bloc.dart/image_page_state.dart';
 import '../../injection/injection_container.dart';
 import '../../resources/margin_keys.dart';
 import '../grid_view_builder.dart';
@@ -34,19 +34,9 @@ class _ImagePageState extends State<ImagePage> {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          body: state is ImagePageLoadingState
-              ? _buildLoadingIndicator()
-              : _buildImageBody(),
+          body: _buildImageBody(),
         );
       },
-    );
-  }
-
-  _buildLoadingIndicator() {
-    return const Center(
-      child: CircularProgressIndicator(
-        color: Colors.teal,
-      ),
     );
   }
 
@@ -70,7 +60,8 @@ class _ImagePageState extends State<ImagePage> {
               padding: EdgeInsets.symmetric(
                   horizontal: MarginKeys.commonHorzontalAndVerticalPadding),
               child: Text(
-                  'No Status Images found please ensure that you have wathced status or you have any status present on whatsapp'),
+                StringKeys.imageNotFoundTxt,
+              ),
             ),
           );
   }

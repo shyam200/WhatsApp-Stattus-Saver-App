@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 abstract class VideoPageState extends Equatable {
@@ -15,3 +17,13 @@ class GalleryVideoDownloadedSuccessState extends VideoPageState {
 }
 
 class VideoAddedToWishlistState extends VideoPageState {}
+
+class VideosThumbnailLoadedState extends VideoPageState {
+  final List<File> videosThumbnail;
+
+  const VideosThumbnailLoadedState(this.videosThumbnail);
+  @override
+  List<Object?> get props => [videosThumbnail];
+}
+
+class VideoDetailInitialisedtState extends VideoPageState {}

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whats_app_status_saver/resources/string_keys.dart';
 
 import '../../business_layer/image_page_bloc.dart/image_page_bloc.dart';
 import '../../business_layer/image_page_bloc.dart/image_page_event.dart';
@@ -27,7 +28,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
       listener: (context, state) {
         if (state is GalleryImageDownloadedSuccessState) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Image Saved Successfully!'),
+            content: Text(StringKeys.imageSuccessTxt),
             duration:
                 Duration(seconds: CommonConstants.snackBarDurationSeconds),
           ));
@@ -70,10 +71,6 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
       url: widget.image.path,
     ));
   }
-
-  // _onWishlistTap() {
-  //   widget.bloc.add(StatusImageWishlistAddEvent());
-  // }
 
   _onShareTap() {
     widget.bloc.add(StatusImageShareEvent(widget.image));

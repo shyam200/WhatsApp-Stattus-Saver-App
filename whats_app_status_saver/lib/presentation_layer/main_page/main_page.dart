@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import '../../business_layer/main_page_bloc/main_page_bloc.dart';
 import '../../business_layer/main_page_bloc/main_page_event.dart';
 import '../../business_layer/main_page_bloc/main_page_state.dart';
 import '../../core/widgets/ws_common_dialog.dart';
+import '../../core/widgets/ws_loader.dart';
 import '../../injection/injection_container.dart';
 import '../../resources/string_keys.dart';
 import '../../resources/text_styles.dart';
@@ -47,8 +47,7 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (AppLifecycleState.resumed == state) {
-      log('resume.......');
-      // _mainPageBloc.add(CheckGalleryPermissionStatusEvent());
+      _mainPageBloc.add(CheckGalleryPermissionStatusEvent());
     }
   }
 
@@ -86,7 +85,7 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
                   ? _buildNoPermissionBody()
                   : _getNavigationBarItemBody()[_currentIndex],
               state is MainPageLoadingState
-                  ? _buildWsLoader()
+                  ? const WsLoader()
                   : const SizedBox(),
             ],
           ),
@@ -154,13 +153,5 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
     setState(() {
       _currentIndex = index;
     });
-  }
-
-  _buildWsLoader() {
-    return const Center(
-      child: CircularProgressIndicator(
-        color: Colors.blue,
-      ),
-    );
   }
 }

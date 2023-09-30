@@ -4,5 +4,6 @@ class StringKeys {
   static const String videoSuccessTxt = 'Video Saved Successfully!';
   static const String imageSuccessTxt = 'Image Saved Successfully!';
   static const String imageNotFoundTxt =
-      'No Status Images found please ensure that you have wathced status or you have any status present on whatsapp';
+      'There are no status images available. Make sure you have watched any statuses on Whatsapp';
+  //or have any statuses waiting for you there.';
 }

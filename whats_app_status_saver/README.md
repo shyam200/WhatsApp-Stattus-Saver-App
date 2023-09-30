@@ -1,10 +1,16 @@
 # whats_app_status_saver
 
-A new Flutter project.
+An application to save whatsApp statuses on gallery. It offers share feature to share statuses with multiple peoples, friends and family. A dark more feature for better eye protection.
+
+
+# Accessbility
+- This application is currently supports android devices only.
+- App icons are only enabled for android for now.
+- Native splash are only enabled for android 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+
 
 A few resources to get you started if this is your first Flutter project:
 

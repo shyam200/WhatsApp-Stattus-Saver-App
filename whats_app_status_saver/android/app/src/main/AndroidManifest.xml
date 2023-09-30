@@ -9,7 +9,7 @@ xmlns:tools="http://schemas.android.com/tools"
    <application
         android:label="whats_app_status_saver"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ws_saver_launcher_icon"
         android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"

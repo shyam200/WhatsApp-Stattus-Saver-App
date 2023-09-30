@@ -61,6 +61,10 @@ class _ImagePageState extends State<ImagePage> {
                   horizontal: MarginKeys.commonHorzontalAndVerticalPadding),
               child: Text(
                 StringKeys.imageNotFoundTxt,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           );

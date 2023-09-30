@@ -1,0 +1,16 @@
+# This yaml file will hold the native splash screen behaviour code
+flutter_native_splash:
+  image: assets/images/ws_saver_img_circle.png
+  color: "#9EB384"
+
+  android_12:
+    image: assets/images/ws_saver_img_circle.png
+    color: "#9EB384"
+    android_gravity: center
+ 
+
+  #android: false
+  ios: false
+  web: false
+
+  # fullscreen: true

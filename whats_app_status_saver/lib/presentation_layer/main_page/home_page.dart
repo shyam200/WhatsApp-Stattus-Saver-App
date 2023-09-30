@@ -4,7 +4,7 @@ import '../../business_layer/main_page_bloc/main_page_bloc.dart';
 import '../../business_layer/main_page_bloc/main_page_state.dart';
 import 'package:whats_app_status_saver/injection/injection_container.dart';
 
-import '../splash_page.dart';
+import 'main_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
 
           //     // primarySwatch: Colors.teal,
           //     ),
-          home: const SplashScreen(),
+          home: const Mainpage(),
         );
       },
     );

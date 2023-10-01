@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
-import 'package:whats_app_status_saver/core/widgets/ws_loader.dart';
-import 'package:whats_app_status_saver/resources/string_keys.dart';
-import '../../resources/common_constants.dart';
 
 import '../../business_layer/video_page_bloc.dart/video_page_bloc.dart';
 import '../../business_layer/video_page_bloc.dart/video_page_event.dart';
 import '../../business_layer/video_page_bloc.dart/video_page_state.dart';
+import '../../core/widgets/ws_loader.dart';
+import '../../resources/common_constants.dart';
 import '../../resources/margin_keys.dart';
+import '../../resources/string_keys.dart';
 import '../ws_detail_view_buttons.dart';
 import 'ws_video_player.dart';
 

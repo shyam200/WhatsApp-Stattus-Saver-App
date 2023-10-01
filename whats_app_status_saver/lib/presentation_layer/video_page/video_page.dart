@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whats_app_status_saver/core/widgets/ws_loader.dart';
-import 'package:whats_app_status_saver/resources/string_keys.dart';
 
 import '../../business_layer/video_page_bloc.dart/video_page_bloc.dart';
 import '../../business_layer/video_page_bloc.dart/video_page_event.dart';
 import '../../business_layer/video_page_bloc.dart/video_page_state.dart';
+import '../../core/widgets/ws_loader.dart';
 import '../../injection/injection_container.dart';
 import '../../resources/margin_keys.dart';
+import '../../resources/string_keys.dart';
 import '../../resources/text_styles.dart';
 import '../grid_view_builder.dart';
 import 'video_detail_page.dart';

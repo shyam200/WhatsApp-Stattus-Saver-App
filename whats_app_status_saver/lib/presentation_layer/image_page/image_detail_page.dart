@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whats_app_status_saver/resources/string_keys.dart';
 
 import '../../business_layer/image_page_bloc.dart/image_page_bloc.dart';
 import '../../business_layer/image_page_bloc.dart/image_page_event.dart';
 import '../../business_layer/image_page_bloc.dart/image_page_state.dart';
 import '../../resources/common_constants.dart';
 import '../../resources/margin_keys.dart';
+import '../../resources/string_keys.dart';
 import '../ws_detail_view_buttons.dart';
 
 class ImageDetailPage extends StatefulWidget {

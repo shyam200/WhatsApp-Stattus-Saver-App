@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whats_app_status_saver/resources/string_keys.dart';
-import 'package:whats_app_status_saver/resources/text_styles.dart';
+import '../../resources/string_keys.dart';
+import '../../resources/text_styles.dart';
 
 import '../../business_layer/image_page_bloc.dart/image_page_bloc.dart';
 import '../../injection/injection_container.dart';

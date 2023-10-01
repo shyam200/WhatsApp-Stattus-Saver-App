@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whats_app_status_saver/core/local_storage/shared_preference_manager.dart';
-import 'package:whats_app_status_saver/resources/preference_keys.dart';
+import '../../core/local_storage/shared_preference_manager.dart';
+import '../../resources/preference_keys.dart';
 
 import '../../core/access_permissions/access_permissions_wrapper.dart';
 import '../../core/method_channels/ws_platform_channel.dart';

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whats_app_status_saver/resources/string_keys.dart';
+import 'package:whats_app_status_saver/resources/text_styles.dart';
 
 import '../../business_layer/image_page_bloc.dart/image_page_bloc.dart';
 import '../../injection/injection_container.dart';
@@ -59,13 +60,8 @@ class _ImagePageState extends State<ImagePage> {
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MarginKeys.commonHorzontalAndVerticalPadding),
-              child: Text(
-                StringKeys.imageNotFoundTxt,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: Text(StringKeys.imageNotFoundTxt,
+                  style: TextStyles.bodyTextBold),
             ),
           );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:whats_app_status_saver/core/local_storage/shared_preference_manager.dart';
+import 'package:whats_app_status_saver/resources/preference_keys.dart';
 import '../../../business_layer/main_page_bloc/main_page_bloc.dart';
 import '../../../injection/injection_container.dart';
 
@@ -17,7 +19,17 @@ class WSDrawer extends StatefulWidget {
 }
 
 class _WSDrawerState extends State<WSDrawer> {
+  late SharedPreferenceManager sharedPreferenceManager;
   bool _isDarkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    sharedPreferenceManager = di<SharedPreferenceManager>();
+    _isDarkMode = sharedPreferenceManager.getBool(PrefKeys.isDarkMode,
+        defaultValue: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -77,6 +89,6 @@ class _WSDrawerState extends State<WSDrawer> {
     setState(() {
       _isDarkMode = !_isDarkMode;
     });
-    di<MainPageBloc>().add(ToggleDarkThemeModeEvent(_isDarkMode));
+    widget.bloc.add(ToggleDarkThemeModeEvent(_isDarkMode));
   }
 }

@@ -4,4 +4,6 @@ abstract class TextStyles {
   static const headingText =
       TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
   static const bodyText = TextStyle(color: Colors.black, fontSize: 18);
+  static const bodyTextBold =
+      TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
 }

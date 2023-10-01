@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:whats_app_status_saver/core/local_storage/shared_preference_manager.dart';
+import 'package:whats_app_status_saver/resources/preference_keys.dart';
 
 import '../../core/access_permissions/access_permissions_wrapper.dart';
 import '../../core/method_channels/ws_platform_channel.dart';
@@ -11,10 +12,10 @@ import 'main_page_state.dart';
 
 class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   final AccessPermissionsWrapper accessPermissionsWrapper;
-  final SharedPreferences sharedPreferences;
+  final SharedPreferenceManager sharedPreferenceManager;
   MainPageBloc({
     required this.accessPermissionsWrapper,
-    required this.sharedPreferences,
+    required this.sharedPreferenceManager,
   }) : super(MainPageInitialState()) {
     on<CheckGalleryPermissionStatusEvent>(_checkPermissionStatus);
     on<GetWsFilesEvent>(_getWsFiles);
@@ -98,8 +99,10 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
 
 //To switch between app themes
   void _switchThemeAppMode(
-      ToggleDarkThemeModeEvent event, Emitter<MainPageState> emit) {
+      ToggleDarkThemeModeEvent event, Emitter<MainPageState> emit) async {
     emit(MainPageLoadingState());
+    await sharedPreferenceManager.setBool(
+        PrefKeys.isDarkMode, event.isDarkMode);
     emit(ToggleDarkThemeModeState(event.isDarkMode));
   }
 }

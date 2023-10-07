@@ -90,7 +90,6 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.white70,
             items: _getNavigationBarItems(),
             currentIndex: _currentIndex,
             onTap: _onNavigationBarTapped,
@@ -102,7 +101,10 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
 
   List<BottomNavigationBarItem> _getNavigationBarItems() {
     return const [
-      BottomNavigationBarItem(icon: Icon(Icons.image), label: 'Image'),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.image),
+        label: 'Image',
+      ),
       BottomNavigationBarItem(icon: Icon(Icons.video_file), label: 'Video')
     ];
   }

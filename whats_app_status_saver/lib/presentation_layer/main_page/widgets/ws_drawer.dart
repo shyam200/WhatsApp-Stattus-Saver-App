@@ -6,6 +6,7 @@ import '../../../core/local_storage/shared_preference_manager.dart';
 import '../../../injection/injection_container.dart';
 import '../../../resources/preference_keys.dart';
 import '../../../resources/text_styles.dart';
+import '../../../resources/ws_colors.dart';
 
 class WSDrawer extends StatefulWidget {
   final MainPageBloc bloc;
@@ -47,12 +48,14 @@ class _WSDrawerState extends State<WSDrawer> {
 
   DrawerHeader _buildDrawerHeader() {
     return DrawerHeader(
-      decoration: const BoxDecoration(color: Colors.teal),
+      decoration: BoxDecoration(
+          color: _isDarkMode ? Colors.grey[800] : WSColors.lightGreenColor),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
           'Ws Saver Menu',
-          style: TextStyles.headingText.copyWith(fontSize: 24),
+          style: TextStyles.headingText.copyWith(
+              fontSize: 30, color: _isDarkMode ? Colors.white : Colors.black),
           textAlign: TextAlign.start,
         ),
       ),
@@ -65,8 +68,12 @@ class _WSDrawerState extends State<WSDrawer> {
     required Function() onTap,
   }) {
     return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
+      leading: Icon(icon,
+          color: _isDarkMode ? Colors.white : WSColors.lightGreenColor),
+      title: Text(
+        title,
+        style: TextStyles.bodyText.copyWith(fontWeight: FontWeight.bold),
+      ),
       onTap: onTap,
       trailing: SizedBox(
           width: 50,

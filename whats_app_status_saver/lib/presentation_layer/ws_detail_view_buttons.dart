@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class WSDetailViewButtons extends StatelessWidget {
+class WSDetailViewButtons extends StatefulWidget {
   final Function() onDownloadTap;
   final Function()? onWishlistTap;
   final Function() onShareTap;
@@ -13,6 +13,11 @@ class WSDetailViewButtons extends StatelessWidget {
   });
 
   @override
+  State<WSDetailViewButtons> createState() => _WSDetailViewButtonsState();
+}
+
+class _WSDetailViewButtonsState extends State<WSDetailViewButtons> {
+  @override
   Widget build(BuildContext context) {
     return _buildButtons();
   }
@@ -21,10 +26,10 @@ class WSDetailViewButtons extends StatelessWidget {
     return SafeArea(
       child: Row(
         children: [
-          _buildIconButton(icon: Icons.download, onTap: onDownloadTap),
+          _buildIconButton(icon: Icons.download, onTap: widget.onDownloadTap),
           // _buildIconButton(
           //     icon: Icons.favorite_border, onTap: onWishlistTap ?? () {}),
-          _buildIconButton(icon: Icons.share, onTap: onShareTap),
+          _buildIconButton(icon: Icons.share, onTap: widget.onShareTap),
         ],
       ),
     );
@@ -34,21 +39,27 @@ class WSDetailViewButtons extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: InkWell(
-          onTap: onTap,
-          child: Material(
-            elevation: 10.0,
+        child: Container(
+          height: 60,
+          width: 80,
+          decoration: BoxDecoration(
+            color: Theme.of(context).buttonTheme.colorScheme?.background,
             borderRadius: BorderRadius.circular(16),
-            child: Container(
-              height: 60,
-              width: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Colors.tealAccent,
-                border: Border.all(color: Colors.grey, width: 0.5),
-              ),
-              child: Icon(icon),
-            ),
+            border: Border.all(color: Colors.grey, width: 0.5),
+            // boxShadow: const [
+            //   BoxShadow(
+            //       color: Colors.grey, //New
+            //       blurRadius: 25.0,
+            //       offset: Offset(0, 0))
+            // ],
+          ),
+          child: IconButton(
+            icon: Icon(icon),
+            // color: Colors.green,
+            iconSize: 34,
+            // elevation: 10.0,
+            // borderRadius: BorderRadius.circular(16),
+            onPressed: onTap,
           ),
         ),
       ),

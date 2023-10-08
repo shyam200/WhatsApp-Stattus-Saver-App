@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whats_app_status_saver/resources/string_keys.dart';
 
 import '../../../business_layer/main_page_bloc/main_page_bloc.dart';
 import '../../../business_layer/main_page_bloc/main_page_event.dart';
@@ -40,7 +41,9 @@ class _WSDrawerState extends State<WSDrawer> {
       children: [
         _buildDrawerHeader(),
         _buildDrawerItems(
-            title: 'Dark Mode', icon: Icons.dark_mode, onTap: _onTapDarkMode),
+            title: StringKeys.darkModeText,
+            icon: Icons.dark_mode,
+            onTap: _onTapDarkMode),
         // _buildDrawerItems(title: 'Share App', icon: Icons.share, onTap: () {}),
       ],
     ));
@@ -53,10 +56,11 @@ class _WSDrawerState extends State<WSDrawer> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          'Ws Saver Menu',
-          style: TextStyles.headingText.copyWith(
-              fontSize: 30, color: _isDarkMode ? Colors.white : Colors.black),
-          textAlign: TextAlign.start,
+          StringKeys.drawerHeading,
+          style: appTextTheme(context).displayMedium?.copyWith(
+                fontSize: 40,
+              ),
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -72,7 +76,9 @@ class _WSDrawerState extends State<WSDrawer> {
           color: _isDarkMode ? Colors.white : WSColors.lightGreenColor),
       title: Text(
         title,
-        style: TextStyles.bodyText.copyWith(fontWeight: FontWeight.bold),
+        style: appTextTheme(context)
+            .bodyMedium
+            ?.copyWith(fontWeight: FontWeight.bold),
       ),
       onTap: onTap,
       trailing: SizedBox(

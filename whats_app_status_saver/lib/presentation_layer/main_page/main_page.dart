@@ -83,10 +83,9 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
             children: [
               !isPermissionGranted
                   ? _buildNoPermissionBody()
-                  : _getNavigationBarItemBody()[_currentIndex],
-              state is MainPageLoadingState
-                  ? const WsLoader()
-                  : const SizedBox(),
+                  : state is MainPageLoadingState
+                      ? const WsLoader()
+                      : _getNavigationBarItemBody()[_currentIndex],
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -103,9 +102,10 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
     return const [
       BottomNavigationBarItem(
         icon: Icon(Icons.image),
-        label: 'Image',
+        label: StringKeys.imageLabel,
       ),
-      BottomNavigationBarItem(icon: Icon(Icons.video_file), label: 'Video')
+      BottomNavigationBarItem(
+          icon: Icon(Icons.video_file), label: StringKeys.videoLabel)
     ];
   }
 
@@ -126,9 +126,9 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
           onPressed: () {
             _showSeekPermissionDialog();
           },
-          child: const Text(
+          child: Text(
             StringKeys.getPermissionTxt,
-            style: TextStyle(fontSize: 18),
+            style: appTextTheme(context).labelLarge,
           )),
     );
   }
@@ -138,12 +138,12 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
         context: context,
         builder: (_) {
           return WSCommonDialog(
-              headingText: 'Allow Permission',
-              body: const Text(
-                'Dear user you need to allow media permission to access and download status.',
-                style: TextStyles.bodyText,
-              ),
-              positiveBtnText: 'Allow',
+              headingText: StringKeys.getPermissionTxt,
+              body: Text(StringKeys.permissionBodyText,
+                  style: appTextTheme(context)
+                      .bodyMedium
+                      ?.copyWith(color: Colors.blueGrey[900])),
+              positiveBtnText: StringKeys.allow,
               positiveBtnCallback: () {
                 _mainPageBloc.add(GetGalleryPermissionEvent());
                 Navigator.of(context).pop();

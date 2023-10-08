@@ -27,6 +27,7 @@ class _WSCommonDialogState extends State<WSCommonDialog> {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Material(
+          color: Colors.white,
           elevation: 15.0,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -50,7 +51,10 @@ class _WSCommonDialogState extends State<WSCommonDialog> {
         children: [
           Text(
             widget.headingText ?? '',
-            style: TextStyles.headingText,
+            style: appTextTheme(context).bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.blueGrey[800],
+                fontSize: 20),
           ),
           const SizedBox(
             height: 20,
@@ -64,45 +68,45 @@ class _WSCommonDialogState extends State<WSCommonDialog> {
   _buildBottomBtns() {
     return Row(
       children: [
-        Expanded(
-          child: Container(
-            height: 60,
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-                right: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-              ),
+        //Ngative button
+        _buildButtonContainer(widget.negativeBtnText ?? 'Cancel',
+            appTextTheme(context).labelLarge?.copyWith(color: Colors.grey[800]),
+            buttonStyle: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.white))),
+
+        //Positive button
+        _buildButtonContainer(
+            widget.positiveBtnText ?? 'Ok', appTextTheme(context).labelLarge,
+            onPressed: widget.positiveBtnCallback),
+      ],
+    );
+  }
+
+  Expanded _buildButtonContainer(
+    String buttonText,
+    TextStyle? textStyle, {
+    ButtonStyle? buttonStyle,
+    Function()? onPressed,
+  }) {
+    return Expanded(
+      child: Container(
+        height: 60,
+        decoration: const BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey,
+              width: 1,
             ),
-            child: TextButton(
-                onPressed: () {
+          ),
+        ),
+        child: TextButton(
+            style: buttonStyle,
+            onPressed: onPressed ??
+                () {
                   Navigator.of(context).pop();
                 },
-                child: Text(widget.negativeBtnText ?? 'Cancel')),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            height: 60,
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-              ),
-            ),
-            child: TextButton(
-                onPressed: widget.positiveBtnCallback,
-                child: Text(widget.positiveBtnText ?? 'Ok')),
-          ),
-        ),
-      ],
+            child: Text(buttonText, style: textStyle)),
+      ),
     );
   }
 }

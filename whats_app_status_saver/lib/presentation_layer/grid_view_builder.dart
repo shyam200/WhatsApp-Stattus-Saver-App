@@ -66,7 +66,8 @@ class GridViewBuilder extends StatelessWidget {
   }
 
   Color _getOutlineColor() {
-    return di<SharedPreferenceManager>().getBool(PrefKeys.isDarkMode)
+    return di<SharedPreferenceManager>()
+            .getBool(PrefKeys.isDarkMode, defaultValue: false)
         ? WSColors.whiteMaterialColor.shade700
         : WSColors.lightGreenColor;
   }

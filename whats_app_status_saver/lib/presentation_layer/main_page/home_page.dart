@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whats_app_status_saver/core/local_storage/shared_preference_manager.dart';
 import 'package:whats_app_status_saver/resources/preference_keys.dart';
+import 'package:whats_app_status_saver/resources/string_keys.dart';
 import 'package:whats_app_status_saver/resources/ws_colors.dart';
 
 import '../../business_layer/main_page_bloc/main_page_bloc.dart';
@@ -24,8 +25,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    _isDarkModeTheme =
-        di<SharedPreferenceManager>().getBool(PrefKeys.isDarkMode);
+    _isDarkModeTheme = di<SharedPreferenceManager>()
+        .getBool(PrefKeys.isDarkMode, defaultValue: false);
   }
 
   @override
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       },
       builder: (context, state) {
         return MaterialApp(
-          title: 'Whats App Status Saver',
+          title: StringKeys.appTitleText,
           debugShowCheckedModeBanner: false,
           theme:
               // _isDarkModeTheme ? ThemeData.dark() : ThemeData.light(),

@@ -45,7 +45,6 @@ class _ImagePageState extends State<ImagePage> {
     return widget.imagesList.isNotEmpty
         ? SafeArea(
             child: Container(
-              // color: Colors.blueGrey,
               padding: const EdgeInsets.symmetric(
                 horizontal: MarginKeys.commonHorzontalAndVerticalPadding,
                 vertical: MarginKeys.commonHorzontalAndVerticalPadding,
@@ -56,12 +55,13 @@ class _ImagePageState extends State<ImagePage> {
                   onTapCallback: _navigateImageDetailView),
             ),
           )
-        : const Center(
+        : Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                   horizontal: MarginKeys.commonHorzontalAndVerticalPadding),
               child: Text(StringKeys.imageNotFoundTxt,
-                  style: TextStyles.bodyTextBold),
+                  style:
+                      appTextTheme(context).bodyLarge?.copyWith(fontSize: 20)),
             ),
           );
   }

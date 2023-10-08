@@ -5,7 +5,31 @@ import '../../resources/ws_colors.dart';
 class WSAppTheme {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
-      primaryColor: isDarkTheme ? Colors.yellow : Colors.white,
+      primaryColor: isDarkTheme ? Colors.white : Colors.black,
+      textTheme: TextTheme(
+        displayMedium: TextStyle(
+            color: isDarkTheme ? Colors.grey[300] : Colors.blueGrey[800],
+            fontFamily: 'PlayfairDisplay',
+            fontWeight: FontWeight.bold),
+        bodyMedium: TextStyle(
+            color: isDarkTheme ? Colors.grey[200] : Colors.blueGrey[800],
+            fontSize: 16,
+            fontFamily: 'Montserrat'),
+        bodyLarge: TextStyle(
+            color: isDarkTheme ? Colors.grey[300] : Colors.blueGrey[600],
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            fontFamily: 'Montserrat'),
+        //Use this for buttons label
+        labelLarge: TextStyle(
+            color: isDarkTheme ? Colors.grey[200] : Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Montserrat'),
+
+        // displayMedium:
+        //     TextStyle(color: isDarkTheme ? Colors.white : Colors.red),
+      ),
       // primarySwatch: Colors.yellow,
       // indicatorColor:
       //     isDarkTheme ? const Color(0xff0E1D36) : const Color(0xffCBDCF8),
@@ -23,7 +47,7 @@ class WSAppTheme {
       // cardColor: isDarkTheme ? const Color(0xFF151515) : Colors.white,
 
       //App background color theme
-      canvasColor: isDarkTheme ? Colors.grey[900] : Colors.grey[50],
+      canvasColor: isDarkTheme ? Colors.grey[900] : Colors.grey[300],
       brightness: isDarkTheme ? Brightness.dark : Brightness.light,
       iconTheme:
           IconThemeData(color: isDarkTheme ? Colors.grey[800] : Colors.white),
@@ -39,6 +63,15 @@ class WSAppTheme {
           brightness: isDarkTheme ? Brightness.dark : Brightness.light,
         ),
       ),
+      textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+              textStyle: const MaterialStatePropertyAll(
+                  TextStyle(color: Colors.white)),
+              backgroundColor: isDarkTheme
+                  ? MaterialStatePropertyAll(Colors.blueGrey[400])
+                  : MaterialStatePropertyAll(
+                      WSColors.lightGreenMaterialColor.shade600))),
+
       //  Theme.of(context).buttonTheme.copyWith(
       //     colorScheme: isDarkTheme
       //         ? const ColorScheme.dark()
@@ -49,8 +82,8 @@ class WSAppTheme {
         backgroundColor:
             isDarkTheme ? Colors.grey[800] : WSColors.lightGreenMaterialColor,
       ),
-      textSelectionTheme: TextSelectionThemeData(
-          selectionColor: isDarkTheme ? Colors.white : Colors.black),
+      // textSelectionTheme: TextSelectionThemeData(
+      //     selectionColor: isDarkTheme ? Colors.white : Colors.black),
       colorScheme: ColorScheme.fromSwatch(
         // backgroundColor: isDarkTheme ? Colors.blue : Colors.white,
         primarySwatch: isDarkTheme

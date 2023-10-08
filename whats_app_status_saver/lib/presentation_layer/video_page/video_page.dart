@@ -61,9 +61,9 @@ class _VideopageState extends State<Videopage> {
                       thumbnails: thumbnails,
                       onTapCallback: _navigateVideoDetailView,
                     )
-                  : const Center(
+                  : Center(
                       child: Text(StringKeys.noVideosFoundTxt,
-                          style: TextStyles.bodyTextBold),
+                          style: appTextTheme(context).bodyLarge),
                     ),
             ),
             state is VideoPageLoadingState ? const WsLoader() : const SizedBox()

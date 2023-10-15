@@ -61,6 +61,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'com.example.whats_app_status_saver'
 }
 
 flutter {

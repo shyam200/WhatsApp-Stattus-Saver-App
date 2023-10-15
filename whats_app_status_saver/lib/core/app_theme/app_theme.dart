@@ -11,14 +11,17 @@ class WSAppTheme {
             color: isDarkTheme ? Colors.grey[300] : Colors.blueGrey[800],
             fontFamily: 'PlayfairDisplay',
             fontWeight: FontWeight.bold),
-        bodyMedium: TextStyle(
+        bodySmall: TextStyle(
             color: isDarkTheme ? Colors.grey[200] : Colors.blueGrey[800],
             fontSize: 16,
             fontFamily: 'Montserrat'),
+        bodyMedium: TextStyle(
+            color: isDarkTheme ? Colors.grey[200] : Colors.blueGrey[800],
+            fontSize: 18,
+            fontFamily: 'Montserrat'),
         bodyLarge: TextStyle(
             color: isDarkTheme ? Colors.grey[300] : Colors.blueGrey[600],
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 20,
             fontFamily: 'Montserrat'),
         //Use this for buttons label
         labelLarge: TextStyle(

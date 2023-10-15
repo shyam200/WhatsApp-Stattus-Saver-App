@@ -6,14 +6,18 @@ class WSCommonDialog extends StatefulWidget {
   final Widget body;
   final String? negativeBtnText;
   final String? positiveBtnText;
-  final Function() positiveBtnCallback;
+  final Function()? positiveBtnCallback;
+  final bool showNegativeBtn;
+  final bool showPositiveBtn;
   const WSCommonDialog({
     super.key,
     required this.headingText,
     required this.body,
     this.negativeBtnText,
     this.positiveBtnText,
-    required this.positiveBtnCallback,
+    this.positiveBtnCallback,
+    this.showNegativeBtn = false,
+    this.showPositiveBtn = false,
   });
 
   @override
@@ -51,10 +55,8 @@ class _WSCommonDialogState extends State<WSCommonDialog> {
         children: [
           Text(
             widget.headingText ?? '',
-            style: appTextTheme(context).bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey[800],
-                fontSize: 20),
+            style: appTextTheme(context).bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold, color: Colors.blueGrey[800]),
           ),
           const SizedBox(
             height: 20,
@@ -69,15 +71,20 @@ class _WSCommonDialogState extends State<WSCommonDialog> {
     return Row(
       children: [
         //Ngative button
-        _buildButtonContainer(widget.negativeBtnText ?? 'Cancel',
-            appTextTheme(context).labelLarge?.copyWith(color: Colors.grey[800]),
-            buttonStyle: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.white))),
+        if (widget.showNegativeBtn)
+          _buildButtonContainer(
+              widget.negativeBtnText ?? 'Cancel',
+              appTextTheme(context)
+                  .labelLarge
+                  ?.copyWith(color: Colors.grey[800]),
+              buttonStyle: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.white))),
 
         //Positive button
-        _buildButtonContainer(
-            widget.positiveBtnText ?? 'Ok', appTextTheme(context).labelLarge,
-            onPressed: widget.positiveBtnCallback),
+        if (widget.showPositiveBtn)
+          _buildButtonContainer(
+              widget.positiveBtnText ?? 'Ok', appTextTheme(context).labelLarge,
+              onPressed: widget.positiveBtnCallback),
       ],
     );
   }

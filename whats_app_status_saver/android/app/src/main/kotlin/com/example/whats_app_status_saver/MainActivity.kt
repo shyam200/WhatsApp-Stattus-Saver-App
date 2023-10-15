@@ -18,6 +18,8 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.*
+import kotlin.io.path.Path
+import kotlin.io.path.exists
 
 
 class MainActivity : FlutterActivity() {
@@ -104,7 +106,21 @@ class MainActivity : FlutterActivity() {
         val pickerInitialUri = Environment.getExternalStorageDirectory()
             .absolutePath + WS_DIRECTORY_PATH
 
+        //To check if the given folder path exists or not
+         if(Path(pickerInitialUri).exists()){
+             print("URL EXISTS :- $pickerInitialUri")
+             Log.d("URL FOUND", "URL EXISTS:- $pickerInitialUri")
+         }
+        else{
+             print("URL DOESN'T EXISTS :- $pickerInitialUri")
+             Log.d("URL NOT FOUND", "URL DOESN'T EXISTS:- $pickerInitialUri")
+             resultCallback?.success(false)
+             return;
+         }
+
         val folderPath = Uri.parse(pickerInitialUri)
+
+        
 
 
         // Defining the Intent Action that will be triggered from the Page to open the tree to show the folder to the user to seek the permission for
@@ -112,6 +128,8 @@ class MainActivity : FlutterActivity() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
             putExtra(DocumentsContract.EXTRA_INITIAL_URI, folderPath)
         }
+
+
 //        docResultLauncherForResult.launch(intent)
         startActivityForResult(intent, 2000)
     }

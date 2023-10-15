@@ -60,8 +60,9 @@ class _ImagePageState extends State<ImagePage> {
               padding: const EdgeInsets.symmetric(
                   horizontal: MarginKeys.commonHorzontalAndVerticalPadding),
               child: Text(StringKeys.imageNotFoundTxt,
-                  style:
-                      appTextTheme(context).bodyLarge?.copyWith(fontSize: 20)),
+                  style: appTextTheme(context).bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      )),
             ),
           );
   }

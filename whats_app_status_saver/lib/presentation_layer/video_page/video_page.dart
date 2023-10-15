@@ -63,7 +63,9 @@ class _VideopageState extends State<Videopage> {
                     )
                   : Center(
                       child: Text(StringKeys.noVideosFoundTxt,
-                          style: appTextTheme(context).bodyLarge),
+                          style: appTextTheme(context).bodyLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              )),
                     ),
             ),
             state is VideoPageLoadingState ? const WsLoader() : const SizedBox()

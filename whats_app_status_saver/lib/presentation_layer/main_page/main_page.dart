@@ -71,6 +71,11 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
         } else if (state is GalleryPermissionNotAllowedState) {
           isPermissionGranted = false;
           _showSeekPermissionDialog();
+        } else if (state is TechnicalErrorState) {
+          //Permission not granted, reason could be:-
+          // status directory not found since whatsApp not installed
+          // whatsApp installed but not setUp yet
+          _showErrorDialog();
         }
       },
       builder: (context, state) {
@@ -123,6 +128,10 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
   _buildNoPermissionBody() {
     return Center(
       child: TextButton(
+          style: Theme.of(context).textButtonTheme.style?.copyWith(
+              fixedSize: const MaterialStatePropertyAll(Size(200, 60)),
+              shape: const MaterialStatePropertyAll(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))))),
           onPressed: () {
             _showSeekPermissionDialog();
           },
@@ -143,6 +152,8 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
                   style: appTextTheme(context)
                       .bodyMedium
                       ?.copyWith(color: Colors.blueGrey[900])),
+              showPositiveBtn: true,
+              showNegativeBtn: true,
               positiveBtnText: StringKeys.allow,
               positiveBtnCallback: () {
                 _mainPageBloc.add(GetGalleryPermissionEvent());
@@ -155,5 +166,20 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+  void _showErrorDialog() {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return WSCommonDialog(
+            headingText: StringKeys.errorTitle,
+            body: Text(StringKeys.whatsAppNotSetUpText,
+                style: appTextTheme(context)
+                    .bodyMedium
+                    ?.copyWith(color: Colors.blueGrey[900])),
+            showPositiveBtn: true,
+          );
+        });
   }
 }

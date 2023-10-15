@@ -12,8 +12,13 @@ class StringKeys {
   static const String videoLabel = "Video";
   static const String darkModeText = "Dark Mode";
   static const String drawerHeading = "Menu";
+
+  ///!Error texts
+  static const String errorTitle = "Error";
   static const String permissionBodyText =
       "Dear user you need to allow media permission to access and download status";
+  static const String whatsAppNotSetUpText =
+      "There was an error granting permission. If you haven't yet set up Whatsapp, please make sure you have installed it and configured it properly.";
 
   //or have any statuses waiting for you there.';
 }

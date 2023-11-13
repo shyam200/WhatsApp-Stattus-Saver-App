@@ -31,8 +31,7 @@ class ImagePageBloc extends Bloc<ImagePageEvent, ImagePageState> {
       StatusImageShareEvent event, Emitter<ImagePageState> emit) {
     try {
       final file = event.imageFile;
-      Share.shareXFiles([XFile(file.path)],
-          text: 'share image', subject: 'Ws Share');
+      Share.shareXFiles([XFile(file.path)], subject: 'Ws Share');
     } catch (exception, stackTrace) {
       log('exception:- $exception \nstackTrace:- $stackTrace');
     }

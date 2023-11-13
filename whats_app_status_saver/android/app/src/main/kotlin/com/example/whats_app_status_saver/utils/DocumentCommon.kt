@@ -6,9 +6,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
-import android.provider.DocumentsContract.isTreeUri
 import android.util.Log
-import androidx.annotation.RequiresApi
 
 @SuppressLint("LongLogTag")
 fun buildChildDocumentsUriUsingTree(treeUri: Uri, contentResolver: ContentResolver, context: Context): List<Uri>? {

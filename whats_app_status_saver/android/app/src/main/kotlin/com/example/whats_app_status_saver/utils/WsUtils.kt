@@ -13,6 +13,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
+
 //This class will provide the utility functions for additional functionality
 class WsUtils(private val context: Context) {
 
@@ -178,6 +179,23 @@ class WsUtils(private val context: Context) {
             Log.e("GET_PATH_EXCEPTION", e.message.toString())
         }
         return ""
+    }
+
+
+    fun convertPathToUriString(path: String,  isTreeUri: Boolean) : String{
+        var uri = ""
+        val base = "content://com.android.externalstorage.documents/tree/primary%3A"
+        val documentUri = "/document/primary%3A" +
+                path.replace("/", "%2F").replace(" ", "%20")// replaceAll("/", "%2F").replaceAll(" ", "%20")
+        if (isTreeUri) {
+            uri =   base + path. replace("/", "%2F").replace(" ", "%20")
+        } else {
+            val pathSegments: List<String> = path.split("/")
+            val fileName = pathSegments[pathSegments.size - 1]
+            val directory = path.split("/${fileName}")[0]
+            uri =   base + directory.replace("/", "%2F").replace(" ", "%20") + documentUri
+        }
+        return uri
     }
 
     @SuppressLint("LongLogTag")

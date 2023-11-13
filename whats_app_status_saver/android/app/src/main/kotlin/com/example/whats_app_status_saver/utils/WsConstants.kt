@@ -12,9 +12,19 @@ const val SHARED_PREF_NAME = "wsSharedFile"
 const val CHECK_IF_PERMISSION_ALLOWED = "checkedDirPermission"
 const val WS_DIRECTORY_PATH = "/Android/media/com.whatsapp/WhatsApp/Media/.Statuses"
 
+//Numeric constants
+const val ActivityRequestCode = 2000;
+
+///storage constants
+const val wsCacheDirectory = "wsCacheDirectory"
+
+////status directory path for android 9 and below
+//const val WS_DIR_OLDER_PATH = "/WhatsApp/Media/.Statuses";
+
 ///Keys
 const val PERMISSION_KEY = "isPermissionGranted"
 const val PERMISSION_URI_KEY = "permissionUriKey"
 
 ///Android versions
 const val API_21 = Build.VERSION_CODES.LOLLIPOP
+const val API_26 = Build.VERSION_CODES.O

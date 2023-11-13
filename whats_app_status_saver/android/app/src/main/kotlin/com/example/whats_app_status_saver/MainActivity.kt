@@ -12,14 +12,12 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.util.Log
 import com.example.whats_app_status_saver.utils.*
-import com.example.whats_app_status_saver.utils.WsUtils
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.*
-import kotlin.io.path.Path
-import kotlin.io.path.exists
+import java.io.File
 
 
 class MainActivity : FlutterActivity() {
@@ -28,12 +26,12 @@ class MainActivity : FlutterActivity() {
     private var resultCallback: MethodChannel.Result? = null
     private var methodCall: MethodCall? = null
     private var util: WsUtils? = null
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var prefEditor: SharedPreferences.Editor
-    var directoryUri: Uri? = null
+    private var directoryUri: Uri? = null
 
 
-    private fun initData(flutterEngine : FlutterEngine) {
+    private fun initData(flutterEngine: FlutterEngine) {
         methodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName)
         util = WsUtils(this)
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
@@ -58,12 +56,15 @@ class MainActivity : FlutterActivity() {
                 CHECK_IF_PERMISSION_ALLOWED -> {
                     isPermissionAllowed()
                 }
+
                 GET_DIR_PERMISSION -> {
                     openDirectory()
                 }
+
                 GET_FILES -> {
                     buildDocumentContract(directoryUri!!, "any", call.method)
                 }
+
                 GET_CACHE_FILES -> {
                     getCacheFiles()
                 }
@@ -74,7 +75,7 @@ class MainActivity : FlutterActivity() {
 
     //Method to check if permission of the directory is already allowed
     private fun isPermissionAllowed() {
-        var uri = sharedPreferences.getString(PERMISSION_URI_KEY, "")
+        val uri = sharedPreferences.getString(PERMISSION_URI_KEY, "")
         if (uri != null && uri != "") {
             resultCallback?.success(true)
         } else {
@@ -84,15 +85,15 @@ class MainActivity : FlutterActivity() {
 
     private fun getCacheFiles() {
 //        val args = call.arguments as Map<String, String>
-        var uri = sharedPreferences.getString(PERMISSION_URI_KEY, "")
+        val uri = sharedPreferences.getString(PERMISSION_URI_KEY, "")
 
-        if (uri != null && uri.isNotEmpty()) {
+        if (!uri.isNullOrEmpty()) {
             directoryUri = Uri.parse(uri)
             println("afterDirUri = $directoryUri")
             buildAndGetCacheFiles(
                 directoryUri!!,
                 "any",
-                "wsCacheDirectory",
+                wsCacheDirectory,
                 resultCallback,
                 this,
                 util
@@ -103,35 +104,35 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun openDirectory() {
-        val pickerInitialUri = Environment.getExternalStorageDirectory()
-            .absolutePath + WS_DIRECTORY_PATH
+        val androidDirPath = Environment.getExternalStorageDirectory().absolutePath
+
+        val dirPath = androidDirPath + WS_DIRECTORY_PATH
+
+        val docPathUri =
+            util?.convertPathToUriString(WS_DIRECTORY_PATH, false)
+        val docUri = Uri.parse(docPathUri)
+        // Uri.parse("content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fmedia%2Fcom.whatsapp%2FWhatsApp%2FMedia%2F.Statuses")
 
         //To check if the given folder path exists or not
-         if(Path(pickerInitialUri).exists()){
-             print("URL EXISTS :- $pickerInitialUri")
-             Log.d("URL FOUND", "URL EXISTS:- $pickerInitialUri")
-         }
-        else{
-             print("URL DOESN'T EXISTS :- $pickerInitialUri")
-             Log.d("URL NOT FOUND", "URL DOESN'T EXISTS:- $pickerInitialUri")
-             resultCallback?.success(false)
-             return;
-         }
 
-        val folderPath = Uri.parse(pickerInitialUri)
-
-        
-
-
+        if (File(dirPath).exists()) {
+            Log.d("URL FOUND", "URL EXISTS:- $dirPath")
+        } else {
+            Log.d("URL NOT FOUND", "URL DOESN'T EXISTS:- $dirPath")
+            resultCallback?.success(false)
+            return
+        }
         // Defining the Intent Action that will be triggered from the Page to open the tree to show the folder to the user to seek the permission for
         // that directory
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-            putExtra(DocumentsContract.EXTRA_INITIAL_URI, folderPath)
+            if (Build.VERSION.SDK_INT >= API_26) {
+                putExtra(DocumentsContract.EXTRA_INITIAL_URI, docUri)
+            }
         }
 
 
 //        docResultLauncherForResult.launch(intent)
-        startActivityForResult(intent, 2000)
+        startActivityForResult(intent, ActivityRequestCode)
     }
 
 
@@ -140,7 +141,7 @@ class MainActivity : FlutterActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         try {
-            if (requestCode == 2000
+            if (requestCode == ActivityRequestCode
                 && resultCode == Activity.RESULT_OK
             ) {
                 // The result data contains a URI for the document or directory that
@@ -157,11 +158,6 @@ class MainActivity : FlutterActivity() {
                     //saving the uri
                     prefEditor.putString(PERMISSION_URI_KEY, uri.toString())
                     prefEditor.commit()
-
-//                        if (uri != null) {
-//                        //buildDocumentContract(uriPath, "any", "getWsData");
-//                        getCacheFiles(uri, "any", "wsCacheDirectory", pendingResult, this, util)
-//                    }
                     resultCallback?.success(true)
                 }
             }
@@ -210,7 +206,7 @@ class MainActivity : FlutterActivity() {
     fun buildDocumentContract(sourceTreeUri: Uri, fileType: String = "any", method: String) {
         try {
 
-            if (Build.VERSION.SDK_INT >= 21) {
+            if (Build.VERSION.SDK_INT >= API_21) {
                 val parentUri = DocumentsContract.buildChildDocumentsUriUsingTree(
                     sourceTreeUri,
                     DocumentsContract.getTreeDocumentId(sourceTreeUri)
@@ -270,18 +266,17 @@ class MainActivity : FlutterActivity() {
         context: Context,
         util: WsUtils
     ) {
-//        override fun run() {
         try {
             var cachedFilesPath = listOf<String>()
 
-            var sourceTreeUri: Uri = uriPath //Uri.parse(uri)
+            val sourceTreeUri: Uri = uriPath
             val sourceChildDocumentsUri =
                 buildChildDocumentsUriUsingTree(sourceTreeUri, context.contentResolver, context)
             for (uri in sourceChildDocumentsUri!!) {
                 val fileName = util.nameFileFromUri(uri).toString()
                 if (fileName.contains(fileType.toString()) || fileType == "any") {
                     val copiedPath: String? =
-                        util.syncCopyFileToExternalStorage(uri, cacheDirectoryName!!, fileName)
+                        util.syncCopyFileToExternalStorage(uri, cacheDirectoryName, fileName)
                     if (copiedPath != null) cachedFilesPath += copiedPath.toString()
                 }
             }
@@ -290,7 +285,28 @@ class MainActivity : FlutterActivity() {
             Log.e("CACHING_EXCEPTION", "UNABLE TO BUILD CACHE DIR ${e.message!!}")
             result.success(null)
         }
-//        }
     }
 
+
+    ///Method to check if directory exists using contentURI
+//    fun isDirExists( contentUri: String) : Boolean{
+//        val cr : ContentResolver = getContentResolver()
+////        val projection : ArrayList<String> = arrayListOf(MediaStore.MediaColumns.DATA)
+//        val cur :Cursor? = cr.query(Uri.parse(contentUri),
+//            arrayOf(MediaStore.MediaColumns.DATA), null, null, null);
+//        if (cur != null) {
+//            if (cur.moveToFirst()) {
+//                val filePath :String = cur.getString(0);
+//
+//                return File(filePath).exists()
+//            } else {
+//                Log.d("NO Entry", "Uri was ok but no entry found")
+//                return false
+//            }
+//            cur.close();
+//        } else {
+//            Log.d("Invalid URI", "content Uri was invalid or some other error occurred")
+//            return false
+//        }
+//    }
 }

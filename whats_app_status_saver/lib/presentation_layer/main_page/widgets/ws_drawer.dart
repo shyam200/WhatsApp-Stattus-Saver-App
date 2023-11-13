@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_status_saver/resources/string_keys.dart';
 
 import '../../../business_layer/main_page_bloc/main_page_bloc.dart';
 import '../../../business_layer/main_page_bloc/main_page_event.dart';
 import '../../../core/local_storage/shared_preference_manager.dart';
 import '../../../injection/injection_container.dart';
 import '../../../resources/preference_keys.dart';
+import '../../../resources/string_keys.dart';
 import '../../../resources/text_styles.dart';
 import '../../../resources/ws_colors.dart';
 

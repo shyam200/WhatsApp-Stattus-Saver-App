@@ -12,20 +12,22 @@ class WSPlatformChannel {
   static const kGetDirectoryPermission = "getDirectoryPermission";
 
   //Call native method to check if permission of the WS directory is allowed of not
-  Future isPermissionAllowed() async {
+  Future<bool> isPermissionAllowed() async {
     try {
       return await channel.invokeMethod(kCheckDirectoryPermission);
     } catch (ex) {
       log("Unable to invoke check directory permission \nex");
     }
+    return false;
   }
 
-  Future getDirectoryPermission() async {
+  Future<bool> getDirectoryPermission() async {
     try {
       return await channel.invokeMethod(kGetDirectoryPermission);
     } catch (ex) {
       log("Unable to invoke get directory permission \nex");
     }
+    return false;
   }
 
 //call method to invoke the method from native code

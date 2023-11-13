@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../core/local_storage/shared_preference_manager.dart';
-import '../../resources/preference_keys.dart';
 
 import '../../core/access_permissions/access_permissions_wrapper.dart';
+import '../../core/local_storage/shared_preference_manager.dart';
 import '../../core/method_channels/ws_platform_channel.dart';
 import '../../injection/injection_container.dart';
+import '../../resources/common_constants.dart';
+import '../../resources/preference_keys.dart';
 import 'main_page_event.dart';
 import 'main_page_state.dart';
 
@@ -27,8 +28,14 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   void _checkPermissionStatus(CheckGalleryPermissionStatusEvent event,
       Emitter<MainPageState> emit) async {
     emit(MainPageLoadingState());
-    final isPermissionAllowed =
-        await di<WSPlatformChannel>().isPermissionAllowed();
+    bool isPermissionAllowed = false;
+    if (await accessPermissionsWrapper.isAndroidLessThan11()) {
+      isPermissionAllowed =
+          await accessPermissionsWrapper.isGalleryPermissionAllowed();
+    } else {
+      isPermissionAllowed = await di<WSPlatformChannel>().isPermissionAllowed();
+    }
+
     // sharedPreferences.getBool(CommonConstants.permissionStatusKey) ?? false;
 
     if (isPermissionAllowed) {
@@ -41,10 +48,31 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
 
   void _getWsFiles(GetWsFilesEvent event, Emitter<MainPageState> emit) async {
     emit(MainPageLoadingState());
+    var filesList = [];
+    if (await accessPermissionsWrapper.isAndroidLessThan11()) {
+      // var path = (await getExternalStorageDirectory())
+      //     ?.parent
+      //     .parent
+      //     .parent
+      //     .parent
+      //     .absolute
+      //     .path;
 
-    var result = await di<WSPlatformChannel>().getCacheFilesPath();
-
-    var filesList = List<String>.from(result);
+      var dir = Directory(CommonConstants.android9Path);
+      List<FileSystemEntity> files = [];
+      if (dir.existsSync()) {
+        files = dir.listSync();
+      } else {
+        emit(TechnicalErrorState());
+        return;
+      }
+      for (var file in files) {
+        filesList.add(file.path);
+      }
+    } else {
+      var result = await di<WSPlatformChannel>().getCacheFilesPath();
+      filesList = List<String>.from(result);
+    }
 
     List<File> imageFileList = [];
     List<File> videosFileList = [];
@@ -64,9 +92,14 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   void _getFileAccessPermission(
       MainPageEvent event, Emitter<MainPageState> emit) async {
     emit(MainPageLoadingState());
+    var isSuccess = false;
+    if (await accessPermissionsWrapper.isAndroidLessThan11()) {
+      isSuccess = await accessPermissionsWrapper.grantPermission();
+    } else {
+      //Ask directory permission
+      isSuccess = await di<WSPlatformChannel>().getDirectoryPermission();
+    }
 
-    //Ask directory permission
-    var isSuccess = await di<WSPlatformChannel>().getDirectoryPermission();
     if (isSuccess) {
       emit(GalleryPermissionAllowedState());
     } else {

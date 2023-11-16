@@ -62,7 +62,7 @@ class MainActivity : FlutterActivity() {
                 }
 
                 GET_FILES -> {
-                    buildDocumentContract(directoryUri!!, "any", call.method)
+                    buildDocumentContract(directoryUri!!, FILE_TYPE, call.method)
                 }
 
                 GET_CACHE_FILES -> {
@@ -92,7 +92,7 @@ class MainActivity : FlutterActivity() {
             println("afterDirUri = $directoryUri")
             buildAndGetCacheFiles(
                 directoryUri!!,
-                "any",
+                FILE_TYPE,
                 wsCacheDirectory,
                 resultCallback,
                 this,
@@ -203,7 +203,7 @@ class MainActivity : FlutterActivity() {
 
     ///Method to build documents contract and filter files according to type
     @SuppressLint("LongLogTag")
-    fun buildDocumentContract(sourceTreeUri: Uri, fileType: String = "any", method: String) {
+    fun buildDocumentContract(sourceTreeUri: Uri, fileType: String = FILE_TYPE, method: String) {
         try {
 
             if (Build.VERSION.SDK_INT >= API_21) {
@@ -226,7 +226,7 @@ class MainActivity : FlutterActivity() {
                         val docId = cursor.getString(0)
                         val mime = cursor.getString(1)
                         // val lastModified = cursor.getString(2)
-                        if (FILETYPES.contains(mime) || fileType == "any") {
+                        if (FILETYPES.contains(mime) || fileType == FILE_TYPE) {
                             val child =
                                 DocumentsContract.buildChildDocumentsUriUsingTree(
                                     parentUri,
@@ -251,7 +251,7 @@ class MainActivity : FlutterActivity() {
                 resultCallback?.notSupported(method, API_21)
             }
         } catch (e: Exception) {
-            Log.e("BUID_CHILD_DOCUMENTS_PATH_USING_TREE_EXCEPTION: ", e.message!!)
+            Log.e("BUILD_CHILD_DOCUMENTS_PATH_USING_TREE_EXCEPTION: ", e.message!!)
             resultCallback?.success(null)
         }
     }
@@ -274,7 +274,7 @@ class MainActivity : FlutterActivity() {
                 buildChildDocumentsUriUsingTree(sourceTreeUri, context.contentResolver, context)
             for (uri in sourceChildDocumentsUri!!) {
                 val fileName = util.nameFileFromUri(uri).toString()
-                if (fileName.contains(fileType.toString()) || fileType == "any") {
+                if (fileName.contains(fileType.toString()) || fileType == FILE_TYPE) {
                     val copiedPath: String? =
                         util.syncCopyFileToExternalStorage(uri, cacheDirectoryName, fileName)
                     if (copiedPath != null) cachedFilesPath += copiedPath.toString()

@@ -8,7 +8,6 @@ import android.os.Build
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
-import com.ivehement.saf.plugin.API_24
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -20,13 +19,12 @@ class WsUtils(private val context: Context) {
     // Return the root path i.e. `/storage/emulated/0/`
     private fun getRootPath(): String {
         val externalFilesDir: String = context.getExternalFilesDir(null)!!.path
-        var rootPath = externalFilesDir.split("Android")[0]
-        return rootPath
+        return externalFilesDir.split("Android")[0]
     }
 
     // Check if the file exists
     private fun fileExists(filePath: String): Boolean {
-        val file: File = File(filePath)
+        val file = File(filePath)
         return file.exists()
     }
 
@@ -68,19 +66,18 @@ class WsUtils(private val context: Context) {
 
     // Get the full path for App's Package [files] folder
     fun getExternalFilesDirPath(): String {
-        val externalFilesDirPath: String = context.getExternalFilesDir(null)!!.path
-        return externalFilesDirPath
+        return context.getExternalFilesDir(null)!!.path
     }
 
     // Delete the Cached Child Directory at once
     fun clearCachedFiles(cachedChildDirectoryName: String): Boolean {
         try {
-            var dir: File =
+            val dir =
                 File(context.getExternalFilesDir(null).toString() + "/" + cachedChildDirectoryName)
             dir.deleteRecursively()
             return true
         } catch (e: Exception) {
-            return false;
+            return false
         }
     }
 
@@ -90,9 +87,9 @@ class WsUtils(private val context: Context) {
         cacheDirectoryName: String,
         fileName: String
     ): String? {
-        var output: File
-        if (!cacheDirectoryName.equals("")) {
-            var dir: File =
+        val output: File
+        if (cacheDirectoryName != "") {
+            val dir =
                 File(context.getExternalFilesDir(null).toString() + "/" + cacheDirectoryName)
             if (!dir.exists()) {
                 dir.mkdir()
@@ -106,14 +103,14 @@ class WsUtils(private val context: Context) {
         }
         // If already exist return
         if (output.exists()) {
-            Log.i("SYNC:", "Already exists: " + fileName)
+            Log.i("SYNC:", "Already exists: $fileName")
             return output.path
         }
         try {
-            var inputStream: InputStream = context.contentResolver.openInputStream(sourceUri)!!
-            var outputStream: FileOutputStream = FileOutputStream(output)
+            val inputStream: InputStream = context.contentResolver.openInputStream(sourceUri)!!
+            val outputStream = FileOutputStream(output)
             var read: Int
-            var bufferSize: Int = 1024
+            val bufferSize = 1024
             val buffers = ByteArray(bufferSize)
             read = inputStream.read(buffers)
             while (read != -1) {
@@ -131,7 +128,7 @@ class WsUtils(private val context: Context) {
 
     // Validate if URI correspond with `ExternalStorageDocument`
     private fun isExternalStorageDocument(uri: Uri): Boolean {
-        return "com.android.externalstorage.documents".equals(uri.getAuthority())
+        return "com.android.externalstorage.documents".equals(uri.authority)
     }
 
     // Convert URI to path string
@@ -145,7 +142,7 @@ class WsUtils(private val context: Context) {
                     val docId: String = DocumentsContract.getDocumentId(uri)
                     val split: List<String> = docId.split(":")
                     //val type: String = split[0]
-                    var fullPath: String = getPathFromExtSD(split)
+                    val fullPath: String = getPathFromExtSD(split)
                     if (fullPath != "") {
                         return fullPath
                     } else {
@@ -154,8 +151,8 @@ class WsUtils(private val context: Context) {
                 }
 
                 if ("content".equals(uri.getScheme(), ignoreCase = true)) {
-                    var projection: String = MediaStore.Images.Media._ID
-                    var cursor: Cursor
+                    val projection: String = MediaStore.Images.Media._ID
+                    var cursor: Cursor? = null
                     try {
                         cursor =
                             context.contentResolver.query(
@@ -165,13 +162,18 @@ class WsUtils(private val context: Context) {
                                 null,
                                 null
                             )!!
-                        var column_index: Int =
+                        val columnIndex: Int =
                             cursor.getColumnIndex(MediaStore.Images.Media._ID)
                         if (cursor.moveToFirst()) {
-                            return cursor.getString(column_index)
+                            return cursor.getString(columnIndex)
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
+                    }
+                    finally {
+                        if(cursor != null){
+                            cursor?.close()
+                        }
                     }
                 }
             }
@@ -203,8 +205,7 @@ class WsUtils(private val context: Context) {
         if (!isTreeUri(uri)) return null
         try {
             val pathSegments = uri.getPath().toString().split("/")
-            val fileName = pathSegments[pathSegments.size - 1]
-            return fileName
+            return pathSegments[pathSegments.size - 1]
         } catch (e: Exception) {
             Log.e("NAME_FROM_FILE_PATH_EXCEPTION", e.message.toString())
         }

@@ -11,6 +11,7 @@ const val GET_DIR_PERMISSION = "getDirectoryPermission"
 const val SHARED_PREF_NAME = "wsSharedFile"
 const val CHECK_IF_PERMISSION_ALLOWED = "checkedDirPermission"
 const val WS_DIRECTORY_PATH = "/Android/media/com.whatsapp/WhatsApp/Media/.Statuses"
+const val FILE_TYPE = "any"
 
 //Numeric constants
 const val ActivityRequestCode = 2000;
@@ -28,3 +29,4 @@ const val PERMISSION_URI_KEY = "permissionUriKey"
 ///Android versions
 const val API_21 = Build.VERSION_CODES.LOLLIPOP
 const val API_26 = Build.VERSION_CODES.O
+const val API_24 = Build.VERSION_CODES.N

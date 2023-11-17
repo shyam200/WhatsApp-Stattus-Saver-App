@@ -6,7 +6,7 @@ xmlns:tools="http://schemas.android.com/tools">
 <uses-permission android:name="android.permission.INTERNET"/> 
 <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
    <application
-        android:label="whats_app_status_saver"
+        android:label="WStatus Saver"
         android:name="${applicationName}"
         android:icon="@mipmap/ws_saver_launcher_icon"
         android:requestLegacyExternalStorage="true">

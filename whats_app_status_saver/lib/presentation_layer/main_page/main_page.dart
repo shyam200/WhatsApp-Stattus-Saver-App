@@ -10,6 +10,8 @@ import '../../business_layer/main_page_bloc/main_page_state.dart';
 import '../../core/widgets/ws_common_dialog.dart';
 import '../../core/widgets/ws_loader.dart';
 import '../../injection/injection_container.dart';
+import '../../resources/dimension_keys.dart';
+import '../../resources/images.dart';
 import '../../resources/string_keys.dart';
 import '../../resources/text_styles.dart';
 import '../image_page/image_page.dart';
@@ -29,6 +31,7 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
   List<File>? videosList;
   bool isPermissionGranted = false;
   int _currentIndex = 0;
+  bool isAndroidBelow10 = false;
 
   @override
   void initState() {
@@ -38,7 +41,7 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
     //Fire initial event on start up to check if permission is given or not if not then ask permission
     // _mainPageBloc.add(GetGalleryPermissionEvent());
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _mainPageBloc.add(CheckGalleryPermissionStatusEvent());
+      _mainPageBloc.add(const CheckGalleryPermissionStatusEvent());
     });
   }
 
@@ -47,7 +50,8 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (AppLifecycleState.resumed == state) {
-      _mainPageBloc.add(CheckGalleryPermissionStatusEvent());
+      _mainPageBloc
+          .add(const CheckGalleryPermissionStatusEvent(isResumeState: true));
     }
   }
 
@@ -70,7 +74,10 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
           _mainPageBloc.add(GetWsFilesEvent());
         } else if (state is GalleryPermissionNotAllowedState) {
           isPermissionGranted = false;
-          _showSeekPermissionDialog();
+          isAndroidBelow10 = state.isAndroidBelow10;
+          if (!state.isResumeState) {
+            _showSeekPermissionDialog();
+          }
         } else if (state is TechnicalErrorState) {
           //Permission not granted, reason could be:-
           // status directory not found since whatsApp not installed
@@ -80,7 +87,14 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            title: Text(
+              StringKeys.wsAppTitle,
+              style: appTextTheme(context)
+                  .bodyLarge
+                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+          ),
           drawer: WSDrawer(
             bloc: _mainPageBloc,
           ),
@@ -147,11 +161,26 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
         context: context,
         builder: (_) {
           return WSCommonDialog(
-              headingText: StringKeys.getPermissionTxt,
-              body: Text(StringKeys.permissionBodyText,
-                  style: appTextTheme(context)
-                      .bodyMedium
-                      ?.copyWith(color: Colors.blueGrey[900])),
+              headingText: isAndroidBelow10
+                  ? StringKeys.getPermissionTxt
+                  : StringKeys.getPermissionHeading,
+              subHeadingText:
+                  isAndroidBelow10 ? null : StringKeys.getPermissionSubHeading,
+              body: isAndroidBelow10
+                  ? Text(
+                      StringKeys.getPermissionSubHeadingOlderAndroid,
+                      style: appTextTheme(context)
+                          .bodyMedium
+                          ?.copyWith(color: Colors.blueGrey[800]),
+                    )
+                  : SizedBox(
+                      height: DimensionKeys.permissionDialogHeight,
+                      width: MediaQuery.of(context).size.width - 40,
+                      child: Image.asset(
+                        Images.wsPermissionImage,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
               showPositiveBtn: true,
               showNegativeBtn: true,
               positiveBtnText: StringKeys.allow,

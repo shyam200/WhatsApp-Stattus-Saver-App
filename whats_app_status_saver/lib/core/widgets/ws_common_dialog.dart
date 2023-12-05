@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../../resources/text_styles.dart';
 
 class WSCommonDialog extends StatefulWidget {
-  final String? headingText;
+  final String headingText;
+  final String? subHeadingText;
   final Widget body;
   final String? negativeBtnText;
   final String? positiveBtnText;
@@ -13,6 +14,7 @@ class WSCommonDialog extends StatefulWidget {
     super.key,
     required this.headingText,
     required this.body,
+    this.subHeadingText,
     this.negativeBtnText,
     this.positiveBtnText,
     this.positiveBtnCallback,
@@ -54,10 +56,21 @@ class _WSCommonDialogState extends State<WSCommonDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.headingText ?? '',
+            widget.headingText,
             style: appTextTheme(context).bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold, color: Colors.blueGrey[800]),
           ),
+          if (widget.subHeadingText != null)
+            const SizedBox(
+              height: 5,
+            ),
+          if (widget.subHeadingText != null)
+            Text(
+              widget.subHeadingText ?? '',
+              style: appTextTheme(context)
+                  .bodyMedium
+                  ?.copyWith(color: Colors.blueGrey[800]),
+            ),
           const SizedBox(
             height: 20,
           ),

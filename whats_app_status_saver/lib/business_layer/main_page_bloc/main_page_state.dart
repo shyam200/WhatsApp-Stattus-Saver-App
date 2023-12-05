@@ -27,7 +27,15 @@ class GalleryPermissionDialogState extends MainPageState {}
 
 class GalleryPermissionAllowedState extends MainPageState {}
 
-class GalleryPermissionNotAllowedState extends MainPageState {}
+class GalleryPermissionNotAllowedState extends MainPageState {
+  final bool isResumeState;
+  final bool isAndroidBelow10;
+
+  const GalleryPermissionNotAllowedState(
+      {this.isResumeState = false, this.isAndroidBelow10 = false});
+  @override
+  List<Object?> get props => [isResumeState, isAndroidBelow10];
+}
 
 class TechnicalErrorState extends MainPageState {}
 

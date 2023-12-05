@@ -29,7 +29,9 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
       Emitter<MainPageState> emit) async {
     emit(MainPageLoadingState());
     bool isPermissionAllowed = false;
+    bool isAndroidBelow10 = false;
     if (await accessPermissionsWrapper.isAndroidLessThan11()) {
+      isAndroidBelow10 = true;
       isPermissionAllowed =
           await accessPermissionsWrapper.isGalleryPermissionAllowed();
     } else {
@@ -41,7 +43,9 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     if (isPermissionAllowed) {
       emit(GalleryPermissionAllowedState());
     } else {
-      emit(GalleryPermissionNotAllowedState());
+      emit(GalleryPermissionNotAllowedState(
+          isResumeState: event.isResumeState,
+          isAndroidBelow10: isAndroidBelow10));
       // emit(GalleryPermissionDialogState());
     }
   }

@@ -16,7 +16,13 @@ class GetWsFilesEvent extends MainPageEvent {}
 
 class GetPermissionDialogEvent extends MainPageEvent {}
 
-class CheckGalleryPermissionStatusEvent extends MainPageEvent {}
+class CheckGalleryPermissionStatusEvent extends MainPageEvent {
+  final bool isResumeState;
+
+  const CheckGalleryPermissionStatusEvent({this.isResumeState = false});
+  @override
+  List<Object?> get props => [isResumeState];
+}
 
 // class GetStatusDownloadEvent extends MainPageEvent {
 //   final String url;

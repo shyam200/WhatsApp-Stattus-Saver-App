@@ -36,7 +36,12 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
       },
       builder: (context, state) {
         return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              toolbarHeight: 40,
+              iconTheme: Theme.of(context)
+                  .iconTheme
+                  .copyWith(size: 30, color: Colors.white),
+            ),
             body: Container(
                 padding: const EdgeInsets.only(
                   bottom: MarginKeys.commonHorzontalAndVerticalPadding,
@@ -58,7 +63,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
 
   _buildImageBody() {
     return SizedBox(
-      height: 400,
+      height: MediaQuery.of(context).size.height - 200,
       child: Image.file(
         widget.image,
         fit: BoxFit.fill,

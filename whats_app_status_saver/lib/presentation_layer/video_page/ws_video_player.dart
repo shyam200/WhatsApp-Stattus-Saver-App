@@ -1,6 +1,7 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:whats_app_status_saver/resources/dimension_keys.dart';
 
 class WsVideoPlayer extends StatefulWidget {
   const WsVideoPlayer({
@@ -33,7 +34,7 @@ class _WsVideoPlayerState extends State<WsVideoPlayer> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(
-          height: 400,
+          height: DimensionKeys.videoPlayerHeight,
           width: double.infinity,
           child: Chewie(
             controller: _chewieController,

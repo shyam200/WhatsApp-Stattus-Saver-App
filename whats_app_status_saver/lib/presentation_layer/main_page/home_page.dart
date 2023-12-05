@@ -7,7 +7,6 @@ import '../../core/app_theme/app_theme.dart';
 import '../../core/local_storage/shared_preference_manager.dart';
 import '../../injection/injection_container.dart';
 import '../../resources/preference_keys.dart';
-import '../../resources/string_keys.dart';
 import '../../resources/ws_colors.dart';
 import 'main_page.dart';
 
@@ -40,7 +39,6 @@ class _HomePageState extends State<HomePage> {
       },
       builder: (context, state) {
         return MaterialApp(
-          title: StringKeys.appTitleText,
           debugShowCheckedModeBanner: false,
           theme:
               // _isDarkModeTheme ? ThemeData.dark() : ThemeData.light(),

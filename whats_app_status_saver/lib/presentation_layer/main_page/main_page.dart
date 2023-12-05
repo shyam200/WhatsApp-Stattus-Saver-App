@@ -177,7 +177,7 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
                       height: DimensionKeys.permissionDialogHeight,
                       width: MediaQuery.of(context).size.width - 40,
                       child: Image.asset(
-                        Images.wsPermissionImage,
+                        Images.wsPermissionImg,
                         fit: BoxFit.fill,
                       ),
                     ),

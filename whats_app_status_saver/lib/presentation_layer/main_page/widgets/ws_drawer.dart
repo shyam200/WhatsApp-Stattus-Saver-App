@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:whats_app_status_saver/resources/dimension_keys.dart';
+import 'package:whats_app_status_saver/resources/images.dart';
 
 import '../../../business_layer/main_page_bloc/main_page_bloc.dart';
 import '../../../business_layer/main_page_bloc/main_page_event.dart';
@@ -54,15 +56,14 @@ class _WSDrawerState extends State<WSDrawer> {
       decoration: BoxDecoration(
           color: _isDarkMode ? Colors.grey[800] : WSColors.lightGreenColor),
       child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          StringKeys.drawerHeading,
-          style: appTextTheme(context).displayMedium?.copyWith(
-                fontSize: 40,
-              ),
-          textAlign: TextAlign.center,
-        ),
-      ),
+          alignment: Alignment.center,
+          child: SizedBox(
+              height: DimensionKeys.menuBarImgDimensioin,
+              width: DimensionKeys.menuBarImgDimensioin,
+              child: Image.asset(
+                Images.wsSaverCircleImg,
+                fit: BoxFit.contain,
+              ))),
     );
   }
 

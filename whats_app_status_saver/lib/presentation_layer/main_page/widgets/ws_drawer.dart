@@ -61,7 +61,7 @@ class _WSDrawerState extends State<WSDrawer> {
               height: DimensionKeys.menuBarImgDimensioin,
               width: DimensionKeys.menuBarImgDimensioin,
               child: Image.asset(
-                Images.wsSaverLogoIcon,
+                Images.wsSaverDrawerImg,
                 fit: BoxFit.contain,
               ))),
     );

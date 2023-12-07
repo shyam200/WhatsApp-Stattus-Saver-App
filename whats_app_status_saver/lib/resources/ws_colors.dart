@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class WSColors {
   static const lightGreenColor = Color(0xff79AC78);
+  static const darkGreenColor = Color(0xff1fa845);
+
   static const lightGreenMaterialColor = MaterialColor(0xff79AC78, <int, Color>{
     50: Color.fromRGBO(121, 172, 120, .1),
     100: Color.fromRGBO(121, 172, 120, .2),

@@ -1,11 +1,11 @@
 # This yaml file will hold the native splash screen behaviour code
 flutter_native_splash:
-  image: assets/images/ws_saver_img_circle.png
-  color: "#9EB384"
+  image: assets/images/ws_logo_icon_circle_splash.png
+  color: "#1fa845"
 
   android_12:
-    image: assets/images/ws_saver_img_circle.png
-    color: "#9EB384"
+    image: assets/images/ws_logo_icon_circle_splash.png
+    color: "#1fa845"
     android_gravity: center
  
 

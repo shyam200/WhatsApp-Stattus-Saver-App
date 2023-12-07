@@ -54,14 +54,14 @@ class _WSDrawerState extends State<WSDrawer> {
   DrawerHeader _buildDrawerHeader() {
     return DrawerHeader(
       decoration: BoxDecoration(
-          color: _isDarkMode ? Colors.grey[800] : WSColors.lightGreenColor),
+          color: _isDarkMode ? Colors.grey[800] : WSColors.darkGreenColor),
       child: Align(
           alignment: Alignment.center,
           child: SizedBox(
               height: DimensionKeys.menuBarImgDimensioin,
               width: DimensionKeys.menuBarImgDimensioin,
               child: Image.asset(
-                Images.wsSaverCircleImg,
+                Images.wsSaverLogoIcon,
                 fit: BoxFit.contain,
               ))),
     );

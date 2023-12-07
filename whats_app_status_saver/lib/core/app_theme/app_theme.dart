@@ -83,7 +83,7 @@ class WSAppTheme {
         elevation: 0.0,
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor:
-            isDarkTheme ? Colors.grey[800] : WSColors.lightGreenMaterialColor,
+            isDarkTheme ? Colors.grey[800] : WSColors.darkGreenColor,
       ),
       // textSelectionTheme: TextSelectionThemeData(
       //     selectionColor: isDarkTheme ? Colors.white : Colors.black),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_status_saver/core/app_theme/app_theme.dart';
-import 'package:whats_app_status_saver/core/widgets/ws_common_dialog.dart';
+import '../../../core/widgets/ws_common_dialog.dart';
 
 import '../../../business_layer/main_page_bloc/main_page_bloc.dart';
 import '../../../business_layer/main_page_bloc/main_page_event.dart';

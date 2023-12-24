@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:whats_app_status_saver/core/app_theme/app_theme.dart';
+import 'package:whats_app_status_saver/core/widgets/ws_common_dialog.dart';
 
 import '../../../business_layer/main_page_bloc/main_page_bloc.dart';
 import '../../../business_layer/main_page_bloc/main_page_event.dart';
@@ -45,7 +47,19 @@ class _WSDrawerState extends State<WSDrawer> {
         _buildDrawerItems(
             title: StringKeys.darkModeText,
             icon: Icons.dark_mode,
+            trailingWidget: SizedBox(
+                width: 50,
+                height: 30,
+                child: Switch(
+                    value: _isDarkMode,
+                    onChanged: (_) {
+                      _toggleSwitch();
+                    })),
             onTap: _onTapDarkMode),
+        _buildDrawerItems(
+            title: StringKeys.howToUse,
+            icon: Icons.info,
+            onTap: _onHowToUseTap),
         // _buildDrawerItems(title: 'Share App', icon: Icons.share, onTap: () {}),
       ],
     ));
@@ -71,32 +85,41 @@ class _WSDrawerState extends State<WSDrawer> {
     required String title,
     required IconData icon,
     required Function() onTap,
+    Widget? trailingWidget,
   }) {
     return ListTile(
-      leading: Icon(icon,
-          color: _isDarkMode ? Colors.white : WSColors.lightGreenColor),
-      title: Text(
-        title,
-        style: appTextTheme(context)
-            .bodyMedium
-            ?.copyWith(fontWeight: FontWeight.bold),
-      ),
-      onTap: onTap,
-      trailing: SizedBox(
-          width: 50,
-          height: 30,
-          child: Switch(
-              value: _isDarkMode,
-              onChanged: (_) {
-                _toggleSwitch();
-              })),
-    );
+        leading: Icon(icon,
+            color: _isDarkMode ? Colors.white : WSColors.lightGreenColor),
+        title: Text(
+          title,
+          style: appTextTheme(context)
+              .bodyMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        onTap: onTap,
+        trailing: trailingWidget);
   }
 
   //  return ListTile(
   _onTapDarkMode() {
     // Navigator.of(context).pop();
     _toggleSwitch();
+  }
+
+  _onHowToUseTap() {
+    showDialog(
+      context: context,
+      builder: (_) => const WSCommonDialog(
+          headingText: StringKeys.howToUse,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(StringKeys.howToUseBd1),
+              Text(StringKeys.howToUseBd2),
+              Text(StringKeys.howToUseBd3),
+            ],
+          )),
+    );
   }
 
   _toggleSwitch() {

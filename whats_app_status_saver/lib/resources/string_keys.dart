@@ -19,6 +19,12 @@ class StringKeys {
   static const String darkModeText = "Dark Mode";
   static const String drawerHeading = "Menu";
 
+  ///How to use dialog texts
+  static const String howToUse = "How to use";
+  static const String howToUseBd1 = "Open Whatsapp";
+  static const String howToUseBd2 = "Watch full status";
+  static const String howToUseBd3 = "Open WS Saver app";
+
   ///!Error texts
   static const String errorTitle = "Error";
   static const String permissionBodyText =

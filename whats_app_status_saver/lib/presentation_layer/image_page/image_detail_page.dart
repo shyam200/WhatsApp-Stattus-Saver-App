@@ -44,6 +44,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
             ),
             body: Container(
                 padding: const EdgeInsets.only(
+                  top: MarginKeys.commonHorzontalAndVerticalPadding / 2,
                   bottom: MarginKeys.commonHorzontalAndVerticalPadding,
                 ),
                 child: Column(
@@ -66,7 +67,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
       height: MediaQuery.of(context).size.height - 200,
       child: Image.file(
         widget.image,
-        fit: BoxFit.fill,
+        fit: BoxFit.contain,
       ),
     );
   }

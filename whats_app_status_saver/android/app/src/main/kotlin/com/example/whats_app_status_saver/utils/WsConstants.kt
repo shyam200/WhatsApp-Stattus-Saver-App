@@ -11,6 +11,7 @@ const val GET_DIR_PERMISSION = "getDirectoryPermission"
 const val SHARED_PREF_NAME = "wsSharedFile"
 const val CHECK_IF_PERMISSION_ALLOWED = "checkedDirPermission"
 const val WS_DIRECTORY_PATH = "/Android/media/com.whatsapp/WhatsApp/Media/.Statuses"
+const val WS_BUSINESS_DIRECTORY_PATH = "/Android/media/com.whatsapp.w4b/WhatsApp Business/Media/.Statuses"
 const val FILE_TYPE = "any"
 
 //Numeric constants

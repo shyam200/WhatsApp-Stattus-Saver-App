@@ -105,15 +105,33 @@ class MainActivity : FlutterActivity() {
 
     private fun openDirectory() {
         val androidDirPath = Environment.getExternalStorageDirectory().absolutePath
+        var isBusinessWp = false;
+        var dirPath = androidDirPath + WS_DIRECTORY_PATH
 
-        val dirPath = androidDirPath + WS_DIRECTORY_PATH
+        //check if the normal whats-app does not exists
+        if(!File(dirPath).exists()){
+            //check for whats-app business
+            val businessWpPath = androidDirPath + WS_BUSINESS_DIRECTORY_PATH
+            if(File(businessWpPath).exists()){
+                dirPath = businessWpPath
+                isBusinessWp = true;
+                Log.d("wb exists", "URL EXISTS:- $dirPath")
+            }
+        }
+        var docPathUri : String?;
+        if(isBusinessWp){
+            docPathUri =  util?.convertPathToUriString(WS_BUSINESS_DIRECTORY_PATH, false)
+        }else{
+            docPathUri   =
+                util?.convertPathToUriString(WS_DIRECTORY_PATH, false)
+        }
 
-        val docPathUri =
-            util?.convertPathToUriString(WS_DIRECTORY_PATH, false)
+
         val docUri = Uri.parse(docPathUri)
         // Uri.parse("content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fmedia%2Fcom.whatsapp%2FWhatsApp%2FMedia%2F.Statuses")
 
         //To check if the given folder path exists or not
+
 
         if (File(dirPath).exists()) {
             Log.d("URL FOUND", "URL EXISTS:- $dirPath")

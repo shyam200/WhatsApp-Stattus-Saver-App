@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../core/app_theme/app_theme.dart';
+import '../core/singleton/ws_app_data.dart';
 
 import '../business_layer/image_page_bloc.dart/image_page_bloc.dart';
 import '../business_layer/main_page_bloc/main_page_bloc.dart';
@@ -18,6 +20,7 @@ Future<void> init() async {
   di.registerLazySingleton<MainPageBloc>(() => MainPageBloc(
         accessPermissionsWrapper: di(),
         sharedPreferenceManager: di(),
+        appData: di(),
       ));
 
   di.registerFactory<ImagePageBloc>(() => ImagePageBloc());
@@ -39,4 +42,10 @@ Future<void> init() async {
 
   //! WSPlatformChannel
   di.registerLazySingleton<WSPlatformChannel>(() => WSPlatformChannel());
+
+//! Utils
+  di.registerLazySingleton<WSAppTheme>(() => WSAppTheme());
+
+  //! Singleton
+  di.registerLazySingleton<WsAppData>(() => WsAppData());
 }

@@ -9,7 +9,6 @@ import '../../business_layer/video_page_bloc.dart/video_page_event.dart';
 import '../../business_layer/video_page_bloc.dart/video_page_state.dart';
 import '../../core/widgets/ws_loader.dart';
 import '../../resources/common_constants.dart';
-import '../../resources/margin_keys.dart';
 import '../../resources/string_keys.dart';
 import '../ws_detail_view_buttons.dart';
 import 'ws_video_player.dart';
@@ -58,25 +57,44 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
       },
       builder: (context, state) {
         return Scaffold(
-            appBar: AppBar(),
-            body: state is VideoPageLoadingState
-                ? const WsLoader()
-                : Container(
-                    padding: const EdgeInsets.only(
-                        bottom: MarginKeys.commonHorzontalAndVerticalPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _buildVideoPlayerBody(),
-                        const Spacer(),
-                        WSDetailViewButtons(
-                          onDownloadTap: _onDownloadTap,
-                          onShareTap: _onShareTap,
-                        )
-                      ],
-                    )));
+            backgroundColor: Colors.black,
+            body: SafeArea(
+              child: Stack(children: [
+                _buildBody(),
+                _buildBackBtn(),
+                if (state is VideoPageLoadingState) const WsLoader()
+              ]),
+            ));
       },
     );
+  }
+
+  Column _buildBody() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: _buildVideoPlayerBody(),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: WSDetailViewButtons(
+            onDownloadTap: _onDownloadTap,
+            onShareTap: _onShareTap,
+          ),
+        )
+      ],
+    );
+  }
+
+  IconButton _buildBackBtn() {
+    return IconButton(
+        color: Colors.white,
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        iconSize: 34,
+        icon: const Icon(Icons.arrow_back));
   }
 
   _buildVideoPlayerBody() {

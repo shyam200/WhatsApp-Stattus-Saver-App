@@ -16,8 +16,18 @@ class StringKeys {
   static const String allow = "Allow";
   static const String imageLabel = "Image";
   static const String videoLabel = "Video";
-  static const String darkModeText = "Dark Mode";
+
+  //Drawer Menu Items
   static const String drawerHeading = "Menu";
+  static const String darkModeText = "Dark Mode";
+  static const String shareAppText = "Share App";
+
+  //Share app contents
+  static const String shareAppPreText =
+      "Now you can download and share status of your friends with this App. Download here for free";
+  static const String shareAppUrl = "https://bit.ly/Ws_SaveWhatsAppStatus_free";
+  static const String shareAppEmailSubject =
+      "Download and share status with Ws Saver";
 
   ///How to use dialog texts
   static const String howToUse = "How to use";

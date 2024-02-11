@@ -2,8 +2,6 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../resources/dimension_keys.dart';
-
 class WsVideoPlayer extends StatefulWidget {
   const WsVideoPlayer({
     Key? key,
@@ -22,26 +20,24 @@ class _WsVideoPlayerState extends State<WsVideoPlayer> {
   @override
   void initState() {
     super.initState();
+
     _chewieController = ChewieController(
         videoPlayerController: widget._videoPlayerController,
         looping: true,
-        aspectRatio: 0.9);
+        autoPlay: true,
+        aspectRatio: 0.5);
+  }
+
+  @override
+  void dispose() {
+    _chewieController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(
-          height: DimensionKeys.videoPlayerHeight,
-          width: double.infinity,
-          child: Chewie(
-            controller: _chewieController,
-          ),
-        ),
-      ],
+    return Chewie(
+      controller: _chewieController,
     );
   }
 }

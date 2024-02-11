@@ -57,3 +57,5 @@ class ToggleDarkThemeModeEvent extends MainPageEvent {
   @override
   List<Object?> get props => [isDarkMode];
 }
+
+class ShareWsAPPEvent extends MainPageEvent {}

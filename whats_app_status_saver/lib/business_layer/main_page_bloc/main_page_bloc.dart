@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
+import '../../core/singleton/ws_app_data.dart';
+import '../../resources/string_keys.dart';
 
 import '../../core/access_permissions/access_permissions_wrapper.dart';
 import '../../core/local_storage/shared_preference_manager.dart';
@@ -14,14 +18,17 @@ import 'main_page_state.dart';
 class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   final AccessPermissionsWrapper accessPermissionsWrapper;
   final SharedPreferenceManager sharedPreferenceManager;
+  final WsAppData appData;
   MainPageBloc({
     required this.accessPermissionsWrapper,
     required this.sharedPreferenceManager,
+    required this.appData,
   }) : super(MainPageInitialState()) {
     on<CheckGalleryPermissionStatusEvent>(_checkPermissionStatus);
     on<GetWsFilesEvent>(_getWsFiles);
     on<GetGalleryPermissionEvent>(_getFileAccessPermission);
     on<ToggleDarkThemeModeEvent>(_switchThemeAppMode);
+    on<ShareWsAPPEvent>(_shareWsAppViaSocial);
   }
 
 //Method to check the permission status if user has already granted
@@ -140,6 +147,18 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     emit(MainPageLoadingState());
     await sharedPreferenceManager.setBool(
         PrefKeys.isDarkMode, event.isDarkMode);
+    appData.setDarkMode = event.isDarkMode;
     emit(ToggleDarkThemeModeState(event.isDarkMode));
+  }
+
+  FutureOr<void> _shareWsAppViaSocial(
+      ShareWsAPPEvent event, Emitter<MainPageState> emit) {
+    try {
+      emit(MainPageLoadingState());
+      Share.share("${StringKeys.shareAppPreText}\n${StringKeys.shareAppUrl}",
+          subject: StringKeys.shareAppEmailSubject);
+    } catch (exception) {
+      //
+    }
   }
 }

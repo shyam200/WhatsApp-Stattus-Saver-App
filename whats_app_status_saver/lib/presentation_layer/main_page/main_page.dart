@@ -40,6 +40,7 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
     _mainPageBloc = di<MainPageBloc>();
     //Fire initial event on start up to check if permission is given or not if not then ask permission
     // _mainPageBloc.add(GetGalleryPermissionEvent());
+
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _mainPageBloc.add(const CheckGalleryPermissionStatusEvent());
     });

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../injection/injection_container.dart';
+import '../../resources/preference_keys.dart';
 import '../../resources/ws_colors.dart';
+import '../local_storage/shared_preference_manager.dart';
 
 class WSAppTheme {
-  static ThemeData themeData(bool isDarkTheme, BuildContext context) {
+  static ThemeData themeData() {
+    bool isDarkTheme = di<SharedPreferenceManager>()
+        .getBool(PrefKeys.isDarkMode, defaultValue: false);
     return ThemeData(
       primaryColor: isDarkTheme ? Colors.white : Colors.black,
       textTheme: TextTheme(
@@ -112,7 +117,12 @@ class WSAppTheme {
           trackColor: isDarkTheme
               ? MaterialStateProperty.all(Colors.white)
               : MaterialStateProperty.all(Colors.grey)),
-
+      iconButtonTheme: IconButtonThemeData(
+          style: ButtonStyle(
+        iconColor: isDarkTheme
+            ? MaterialStateProperty.all(Colors.white)
+            : MaterialStateProperty.all(Colors.grey[800]),
+      )),
       // toggleButtonsTheme: ToggleButtonsThemeData(
       //     color: isDarkTheme ? Colors.white : WSColors.lightGreenColor)
     );

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../core/widgets/ws_common_dialog.dart';
 
 import '../../../business_layer/main_page_bloc/main_page_bloc.dart';
 import '../../../business_layer/main_page_bloc/main_page_event.dart';
-import '../../../core/local_storage/shared_preference_manager.dart';
+import '../../../core/singleton/ws_app_data.dart';
+import '../../../core/widgets/ws_common_dialog.dart';
 import '../../../injection/injection_container.dart';
 import '../../../resources/dimension_keys.dart';
 import '../../../resources/images.dart';
-import '../../../resources/preference_keys.dart';
 import '../../../resources/string_keys.dart';
 import '../../../resources/text_styles.dart';
 import '../../../resources/ws_colors.dart';
@@ -24,15 +23,12 @@ class WSDrawer extends StatefulWidget {
 }
 
 class _WSDrawerState extends State<WSDrawer> {
-  late SharedPreferenceManager sharedPreferenceManager;
   bool _isDarkMode = false;
 
   @override
   void initState() {
     super.initState();
-    sharedPreferenceManager = di<SharedPreferenceManager>();
-    _isDarkMode = sharedPreferenceManager.getBool(PrefKeys.isDarkMode,
-        defaultValue: false);
+    _isDarkMode = di<WsAppData>().isDarkMode;
   }
 
   @override
@@ -59,7 +55,10 @@ class _WSDrawerState extends State<WSDrawer> {
             title: StringKeys.howToUse,
             icon: Icons.info,
             onTap: _onHowToUseTap),
-        // _buildDrawerItems(title: 'Share App', icon: Icons.share, onTap: () {}),
+        _buildDrawerItems(
+            title: StringKeys.shareAppText,
+            icon: Icons.share,
+            onTap: _onShareAppTap),
       ],
     ));
   }
@@ -93,7 +92,7 @@ class _WSDrawerState extends State<WSDrawer> {
           title,
           style: appTextTheme(context)
               .bodyMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
+              ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
         ),
         onTap: onTap,
         trailing: trailingWidget);
@@ -108,14 +107,31 @@ class _WSDrawerState extends State<WSDrawer> {
   _onHowToUseTap() {
     showDialog(
       context: context,
-      builder: (_) => const WSCommonDialog(
+      builder: (_) => WSCommonDialog(
+          bodyColor:
+              _isDarkMode ? const Color.fromRGBO(33, 33, 33, 1) : Colors.white,
           headingText: StringKeys.howToUse,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(StringKeys.howToUseBd1),
-              Text(StringKeys.howToUseBd2),
-              Text(StringKeys.howToUseBd3),
+              Text(
+                '➊ ${StringKeys.howToUseBd1}',
+                style: appTextTheme(context)
+                    .bodyLarge!
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '➋ ${StringKeys.howToUseBd2}',
+                style: appTextTheme(context)
+                    .bodyLarge!
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '➌ ${StringKeys.howToUseBd3}',
+                style: appTextTheme(context)
+                    .bodyLarge!
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
             ],
           )),
     );
@@ -126,5 +142,9 @@ class _WSDrawerState extends State<WSDrawer> {
       _isDarkMode = !_isDarkMode;
     });
     widget.bloc.add(ToggleDarkThemeModeEvent(_isDarkMode));
+  }
+
+  _onShareAppTap() {
+    widget.bloc.add(ShareWsAPPEvent());
   }
 }

@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+
+import '../../injection/injection_container.dart';
 import '../../resources/text_styles.dart';
+import '../singleton/ws_app_data.dart';
 
 class WSCommonDialog extends StatefulWidget {
   final String headingText;
@@ -10,6 +15,7 @@ class WSCommonDialog extends StatefulWidget {
   final Function()? positiveBtnCallback;
   final bool showNegativeBtn;
   final bool showPositiveBtn;
+  final Color? bodyColor;
   const WSCommonDialog({
     super.key,
     required this.headingText,
@@ -18,6 +24,7 @@ class WSCommonDialog extends StatefulWidget {
     this.negativeBtnText,
     this.positiveBtnText,
     this.positiveBtnCallback,
+    this.bodyColor,
     this.showNegativeBtn = false,
     this.showPositiveBtn = false,
   });
@@ -26,22 +33,73 @@ class WSCommonDialog extends StatefulWidget {
   State<WSCommonDialog> createState() => _WSCommonDialogState();
 }
 
-class _WSCommonDialogState extends State<WSCommonDialog> {
+class _WSCommonDialogState extends State<WSCommonDialog>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _dialogAnimationController;
+  late Animation<double> _dialogAnimation;
+  late Animation<double> _dialogCurve;
+
+  @override
+  void initState() {
+    super.initState();
+    _dialogAnimationController = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
+    _dialogCurve = CurvedAnimation(
+        parent: _dialogAnimationController, curve: Curves.fastOutSlowIn);
+    _dialogAnimation =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_dialogCurve);
+
+    //start the animation
+    _dialogAnimationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _dialogAnimationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool dark = di<WsAppData>().isDarkMode;
+    log(dark.toString());
     return Center(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        child: Material(
-          color: Colors.white,
-          elevation: 15.0,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTop(),
-              _buildBottomBtns(),
-            ],
+      child: ScaleTransition(
+        scale: _dialogAnimation,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Material(
+            color: widget.bodyColor ?? Colors.white,
+            elevation: 15.0,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 5,
+                  right: 8,
+                  child: IconButton(
+                      style: Theme.of(context).iconButtonTheme.style,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.close,
+                        color: di<WsAppData>().isDarkMode
+                            ? Colors.white
+                            : Colors
+                                .blueGrey, //appTextTheme(context).displayMedium?.color,
+                        size: 34,
+                      )),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildTop(),
+                    _buildBottomBtns(),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -57,8 +115,9 @@ class _WSCommonDialogState extends State<WSCommonDialog> {
         children: [
           Text(
             widget.headingText,
-            style: appTextTheme(context).bodyLarge?.copyWith(
-                fontWeight: FontWeight.bold, color: Colors.blueGrey[800]),
+            style: appTextTheme(context)
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           if (widget.subHeadingText != null)
             const SizedBox(

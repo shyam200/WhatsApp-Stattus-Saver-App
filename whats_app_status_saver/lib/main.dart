@@ -10,5 +10,6 @@ void main() async {
 
   //keep splash screen untill initializtion has complete
   FlutterNativeSplash.remove();
+
   runApp(const HomePage());
 }

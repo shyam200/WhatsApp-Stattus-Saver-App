@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../resources/string_keys.dart';
-import '../../resources/text_styles.dart';
 
 import '../../business_layer/image_page_bloc.dart/image_page_bloc.dart';
 import '../../injection/injection_container.dart';
 import '../../resources/margin_keys.dart';
+import '../../resources/string_keys.dart';
+import '../../resources/text_styles.dart';
 import '../grid_view_builder.dart';
 import 'image_detail_page.dart';
 
@@ -71,6 +71,8 @@ class _ImagePageState extends State<ImagePage> {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => ImageDetailPage(
               bloc: _imagePageBloc,
+              index: index,
+              imageList: widget.imagesList,
               image: widget.imagesList[index],
             )));
   }

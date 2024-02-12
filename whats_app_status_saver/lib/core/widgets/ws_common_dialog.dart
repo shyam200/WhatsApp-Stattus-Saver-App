@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import '../../injection/injection_container.dart';
@@ -61,8 +59,6 @@ class _WSCommonDialogState extends State<WSCommonDialog>
 
   @override
   Widget build(BuildContext context) {
-    bool dark = di<WsAppData>().isDarkMode;
-    log(dark.toString());
     return Center(
       child: ScaleTransition(
         scale: _dialogAnimation,

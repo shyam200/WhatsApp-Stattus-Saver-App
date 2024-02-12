@@ -98,9 +98,7 @@ class _WSDrawerState extends State<WSDrawer> {
         trailing: trailingWidget);
   }
 
-  //  return ListTile(
   _onTapDarkMode() {
-    // Navigator.of(context).pop();
     _toggleSwitch();
   }
 
@@ -108,32 +106,39 @@ class _WSDrawerState extends State<WSDrawer> {
     showDialog(
       context: context,
       builder: (_) => WSCommonDialog(
-          bodyColor:
-              _isDarkMode ? const Color.fromRGBO(33, 33, 33, 1) : Colors.white,
-          headingText: StringKeys.howToUse,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '➊ ${StringKeys.howToUseBd1}',
-                style: appTextTheme(context)
-                    .bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w600),
-              ),
-              Text(
-                '➋ ${StringKeys.howToUseBd2}',
-                style: appTextTheme(context)
-                    .bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w600),
-              ),
-              Text(
-                '➌ ${StringKeys.howToUseBd3}',
-                style: appTextTheme(context)
-                    .bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w600),
-              ),
-            ],
-          )),
+        bodyColor:
+            _isDarkMode ? const Color.fromRGBO(33, 33, 33, 1) : Colors.white,
+        headingText: StringKeys.howToUse,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildInfoDialogText(
+              count: '➊',
+              text: StringKeys.howToUseBd1,
+            ),
+            _buildInfoDialogText(
+              count: '➋',
+              text: StringKeys.howToUseBd2,
+            ),
+            _buildInfoDialogText(
+              count: '➌',
+              text: StringKeys.howToUseBd3,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Text _buildInfoDialogText({
+    required String count,
+    required String text,
+  }) {
+    return Text(
+      '$count $text',
+      style: appTextTheme(context)
+          .bodyLarge!
+          .copyWith(fontWeight: FontWeight.w600),
     );
   }
 

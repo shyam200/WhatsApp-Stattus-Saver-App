@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../core/local_storage/shared_preference_manager.dart';
+import '../core/singleton/ws_app_data.dart';
 import '../injection/injection_container.dart';
 import '../resources/dimension_keys.dart';
 import '../resources/margin_keys.dart';
-import '../resources/preference_keys.dart';
 import '../resources/ws_colors.dart';
 
 class GridViewBuilder extends StatelessWidget {
@@ -66,8 +65,7 @@ class GridViewBuilder extends StatelessWidget {
   }
 
   Color _getOutlineColor() {
-    return di<SharedPreferenceManager>()
-            .getBool(PrefKeys.isDarkMode, defaultValue: false)
+    return di<WsAppData>().isDarkMode
         ? WSColors.whiteMaterialColor.shade700
         : WSColors.lightGreenColor;
   }

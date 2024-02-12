@@ -27,8 +27,6 @@ class _WSDetailViewButtonsState extends State<WSDetailViewButtons> {
       child: Row(
         children: [
           _buildIconButton(icon: Icons.download, onTap: widget.onDownloadTap),
-          // _buildIconButton(
-          //     icon: Icons.favorite_border, onTap: onWishlistTap ?? () {}),
           _buildIconButton(icon: Icons.share, onTap: widget.onShareTap),
         ],
       ),

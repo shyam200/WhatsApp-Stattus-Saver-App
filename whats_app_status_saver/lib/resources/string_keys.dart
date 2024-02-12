@@ -12,7 +12,7 @@ class StringKeys {
   static const String videoSuccessTxt = 'Video Saved Successfully!';
   static const String imageSuccessTxt = 'Image Saved Successfully!';
   static const String imageNotFoundTxt =
-      'Status images are not available. Check your Whatsapp statuses';
+      'Status images are not available. Check your WhatsApp status';
   static const String allow = "Allow";
   static const String imageLabel = "Image";
   static const String videoLabel = "Video";

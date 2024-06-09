@@ -17,14 +17,13 @@ class GridViewBuilder extends StatelessWidget {
   final Function(int)? onTapCallback;
 
   const GridViewBuilder(
-      {Key? key,
+      {super.key,
       required this.itemCount,
       this.isVideoView = false,
       this.filesPath,
       this.onTapCallback,
       this.thumbnails = const [],
-      this.videoFiles = const []})
-      : super(key: key);
+      this.videoFiles = const []});
 
   @override
   Widget build(BuildContext context) {

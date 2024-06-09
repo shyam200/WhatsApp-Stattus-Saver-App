@@ -106,7 +106,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
           }
         },
         onLeftSwipe: (details) {
-          if (_currentIndex < widget.imageList.length) {
+          if (_currentIndex < widget.imageList.length - 1) {
             setState(() {
               _currentImage = widget.imageList[_currentIndex + 1];
               _currentIndex += 1;

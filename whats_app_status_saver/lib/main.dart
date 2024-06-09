@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
 
-  //keep splash screen untill initializtion has complete
+  //keep splash screen untill initializtion has been complete
   FlutterNativeSplash.remove();
 
   runApp(const HomePage());

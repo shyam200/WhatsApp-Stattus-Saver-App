@@ -4,10 +4,9 @@ import 'package:video_player/video_player.dart';
 
 class WsVideoPlayer extends StatefulWidget {
   const WsVideoPlayer({
-    Key? key,
+    super.key,
     required VideoPlayerController videoPlayerController,
-  })  : _videoPlayerController = videoPlayerController,
-        super(key: key);
+  }) : _videoPlayerController = videoPlayerController;
 
   final VideoPlayerController _videoPlayerController;
 

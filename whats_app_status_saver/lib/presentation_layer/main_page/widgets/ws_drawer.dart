@@ -14,9 +14,9 @@ import '../../../resources/ws_colors.dart';
 class WSDrawer extends StatefulWidget {
   final MainPageBloc bloc;
   const WSDrawer({
-    Key? key,
+    super.key,
     required this.bloc,
-  }) : super(key: key);
+  });
 
   @override
   State<WSDrawer> createState() => _WSDrawerState();

@@ -117,12 +117,12 @@ class WSAppTheme {
           trackColor: isDarkTheme
               ? MaterialStateProperty.all(Colors.white)
               : MaterialStateProperty.all(Colors.grey)),
-      iconButtonTheme: IconButtonThemeData(
-          style: ButtonStyle(
-        iconColor: isDarkTheme
-            ? MaterialStateProperty.all(Colors.white)
-            : MaterialStateProperty.all(Colors.grey[800]),
-      )),
+      // iconButtonTheme: IconButtonThemeData(
+      //     style: ButtonStyle(
+      //   iconColor: isDarkTheme
+      //       ? MaterialStateProperty.all(Colors.white)
+      //       : MaterialStateProperty.all(Colors.grey[800]),
+      // )),
       // toggleButtonsTheme: ToggleButtonsThemeData(
       //     color: isDarkTheme ? Colors.white : WSColors.lightGreenColor)
     );

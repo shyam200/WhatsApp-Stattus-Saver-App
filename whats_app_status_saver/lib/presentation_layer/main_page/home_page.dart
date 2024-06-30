@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../business_layer/main_page_bloc/main_page_bloc.dart';
-import '../../core/app_theme/app_theme.dart';
+import '../../core/app_theme/ws_app_theme.dart';
 import '../../core/local_storage/shared_preference_manager.dart';
 import '../../core/singleton/ws_app_data.dart';
 import '../../injection/injection_container.dart';

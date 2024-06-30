@@ -25,6 +25,7 @@ class _WSDetailViewButtonsState extends State<WSDetailViewButtons> {
   _buildButtons() {
     return SafeArea(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildIconButton(icon: Icons.download, onTap: widget.onDownloadTap),
           _buildIconButton(icon: Icons.share, onTap: widget.onShareTap),
@@ -34,31 +35,37 @@ class _WSDetailViewButtonsState extends State<WSDetailViewButtons> {
   }
 
   _buildIconButton({required IconData icon, required Function() onTap}) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Container(
-          height: 60,
-          width: 80,
-          decoration: BoxDecoration(
-            color: Theme.of(context).buttonTheme.colorScheme?.background,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey, width: 0.5),
-            // boxShadow: const [
-            //   BoxShadow(
-            //       color: Colors.grey, //New
-            //       blurRadius: 25.0,
-            //       offset: Offset(0, 0))
-            // ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Container(
+        height: 60,
+        width: 80,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          // Theme.of(context)
+          //     .buttonTheme
+          //     .colorScheme
+          //     ?.background
+          //     .withOpacity(0.8),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey, width: 0.5),
+          // boxShadow: const [
+          //   BoxShadow(
+          //       color: Colors.grey, //New
+          //       blurRadius: 25.0,
+          //       offset: Offset(0, 0))
+          // ],
+        ),
+        child: IconButton(
+          icon: Icon(
+            icon,
+            color: Colors.black,
           ),
-          child: IconButton(
-            icon: Icon(icon),
-            // color: Colors.green,
-            iconSize: 34,
-            // elevation: 10.0,
-            // borderRadius: BorderRadius.circular(16),
-            onPressed: onTap,
-          ),
+          // color: Colors.green,
+          iconSize: 34,
+          // elevation: 10.0,
+          // borderRadius: BorderRadius.circular(16),
+          onPressed: onTap,
         ),
       ),
     );

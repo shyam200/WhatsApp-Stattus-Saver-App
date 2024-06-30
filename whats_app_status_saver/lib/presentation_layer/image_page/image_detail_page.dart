@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:swipe_to/swipe_to.dart';
 
-import '../../business_layer/image_page_bloc.dart/image_page_bloc.dart';
-import '../../business_layer/image_page_bloc.dart/image_page_event.dart';
-import '../../business_layer/image_page_bloc.dart/image_page_state.dart';
+import '../../business_layer/image_page_bloc/image_page_bloc.dart';
+import '../../business_layer/image_page_bloc/image_page_event.dart';
+import '../../business_layer/image_page_bloc/image_page_state.dart';
+import '../../core/widgets/ws_back_button.dart';
 import '../../resources/common_constants.dart';
 import '../../resources/string_keys.dart';
 import '../ws_detail_view_buttons.dart';
@@ -57,26 +58,12 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
           body: SafeArea(
             child: Stack(children: [
               _buildImage(),
-              _buildCloseButton(),
+              const WsBackButton(),
               _buildButtons(),
             ]),
           ),
         );
       },
-    );
-  }
-
-  Widget _buildCloseButton() {
-    return Positioned(
-      left: 10,
-      child: IconButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: const Icon(Icons.arrow_back),
-        color: Colors.white,
-        iconSize: 32,
-      ),
     );
   }
 

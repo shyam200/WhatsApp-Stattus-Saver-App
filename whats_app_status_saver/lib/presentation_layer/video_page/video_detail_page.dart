@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../business_layer/video_page_bloc.dart/video_page_bloc.dart';
-import '../../business_layer/video_page_bloc.dart/video_page_event.dart';
-import '../../business_layer/video_page_bloc.dart/video_page_state.dart';
+import '../../business_layer/video_page_bloc/video_page_bloc.dart';
+import '../../business_layer/video_page_bloc/video_page_event.dart';
+import '../../business_layer/video_page_bloc/video_page_state.dart';
+import '../../core/widgets/ws_back_button.dart';
 import '../../core/widgets/ws_loader.dart';
 import '../../resources/common_constants.dart';
 import '../../resources/string_keys.dart';
@@ -61,7 +62,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
             body: SafeArea(
               child: Stack(children: [
                 _buildBody(),
-                _buildBackBtn(),
+                const WsBackButton(),
                 if (state is VideoPageLoadingState) const WsLoader()
               ]),
             ));
@@ -85,16 +86,6 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
         )
       ],
     );
-  }
-
-  IconButton _buildBackBtn() {
-    return IconButton(
-        color: Colors.white,
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        iconSize: 34,
-        icon: const Icon(Icons.arrow_back));
   }
 
   _buildVideoPlayerBody() {

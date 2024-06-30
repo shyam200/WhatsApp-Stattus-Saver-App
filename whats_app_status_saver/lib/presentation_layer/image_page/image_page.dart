@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../business_layer/image_page_bloc.dart/image_page_bloc.dart';
+import '../../business_layer/image_page_bloc/image_page_bloc.dart';
 import '../../injection/injection_container.dart';
 import '../../resources/margin_keys.dart';
 import '../../resources/string_keys.dart';
@@ -61,8 +61,7 @@ class _ImagePageState extends State<ImagePage> {
                   horizontal: MarginKeys.commonHorzontalAndVerticalPadding),
               child: Text(StringKeys.imageNotFoundTxt,
                   style: appTextTheme(context).bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      )),
+                      fontWeight: FontWeight.bold, color: Colors.white)),
             ),
           );
   }

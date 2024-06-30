@@ -1,11 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../core/app_theme/app_theme.dart';
+import '../core/app_theme/ws_app_theme.dart';
 import '../core/singleton/ws_app_data.dart';
 
-import '../business_layer/image_page_bloc.dart/image_page_bloc.dart';
+import '../business_layer/image_page_bloc/image_page_bloc.dart';
 import '../business_layer/main_page_bloc/main_page_bloc.dart';
-import '../business_layer/video_page_bloc.dart/video_page_bloc.dart';
+import '../business_layer/video_page_bloc/video_page_bloc.dart';
 import '../core/access_permissions/access_permissions_wrapper.dart';
 import '../core/local_storage/shared_preference_manager.dart';
 import '../core/method_channels/ws_platform_channel.dart';

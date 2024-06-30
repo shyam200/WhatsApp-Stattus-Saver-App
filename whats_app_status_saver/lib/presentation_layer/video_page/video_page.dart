@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../business_layer/video_page_bloc.dart/video_page_bloc.dart';
-import '../../business_layer/video_page_bloc.dart/video_page_event.dart';
-import '../../business_layer/video_page_bloc.dart/video_page_state.dart';
+import '../../business_layer/video_page_bloc/video_page_bloc.dart';
+import '../../business_layer/video_page_bloc/video_page_event.dart';
+import '../../business_layer/video_page_bloc/video_page_state.dart';
 import '../../core/widgets/ws_loader.dart';
 import '../../injection/injection_container.dart';
 import '../../resources/margin_keys.dart';
@@ -64,8 +64,8 @@ class _VideopageState extends State<Videopage> {
                   : Center(
                       child: Text(StringKeys.noVideosFoundTxt,
                           style: appTextTheme(context).bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              )),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
                     ),
             ),
             state is VideoPageLoadingState ? const WsLoader() : const SizedBox()

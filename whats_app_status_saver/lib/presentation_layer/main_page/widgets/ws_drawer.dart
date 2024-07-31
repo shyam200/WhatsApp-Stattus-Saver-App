@@ -107,7 +107,8 @@ class _WSDrawerState extends State<WSDrawer> {
       context: context,
       builder: (_) => WSCommonDialog(
         bodyColor:
-            _isDarkMode ? const Color.fromRGBO(33, 33, 33, 1) : Colors.white,
+            _isDarkMode ? const Color.fromARGB(255, 54, 53, 53) : Colors.white,
+        headingColor: _isDarkMode ? Colors.white : Colors.black,
         headingText: StringKeys.howToUse,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

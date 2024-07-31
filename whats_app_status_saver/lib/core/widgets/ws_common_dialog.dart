@@ -14,6 +14,8 @@ class WSCommonDialog extends StatefulWidget {
   final bool showNegativeBtn;
   final bool showPositiveBtn;
   final Color? bodyColor;
+  final Color? crossIcnColor;
+  final Color? headingColor;
   const WSCommonDialog({
     super.key,
     required this.headingText,
@@ -23,6 +25,8 @@ class WSCommonDialog extends StatefulWidget {
     this.positiveBtnText,
     this.positiveBtnCallback,
     this.bodyColor,
+    this.crossIcnColor,
+    this.headingColor,
     this.showNegativeBtn = false,
     this.showPositiveBtn = false,
   });
@@ -79,10 +83,11 @@ class _WSCommonDialogState extends State<WSCommonDialog>
                       },
                       icon: Icon(
                         Icons.close,
-                        color: di<WsAppData>().isDarkMode
-                            ? Colors.white
-                            : Colors
-                                .blueGrey, //appTextTheme(context).displayMedium?.color,
+                        color: widget.crossIcnColor ??
+                            (di<WsAppData>().isDarkMode
+                                ? Colors.white
+                                : Colors
+                                    .blueGrey), //appTextTheme(context).displayMedium?.color,
                         size: 34,
                       )),
                 ),
@@ -111,9 +116,10 @@ class _WSCommonDialogState extends State<WSCommonDialog>
         children: [
           Text(
             widget.headingText,
-            style: appTextTheme(context)
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.bold, fontSize: 24),
+            style: appTextTheme(context).bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: widget.headingColor ?? Colors.black,
+                fontSize: 24),
           ),
           if (widget.subHeadingText != null)
             const SizedBox(

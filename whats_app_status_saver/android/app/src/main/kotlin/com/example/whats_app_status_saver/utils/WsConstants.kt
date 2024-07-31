@@ -2,14 +2,20 @@ package com.example.whats_app_status_saver.utils
 
 import android.os.Build
 
+//Method channel constants
+const val GET_CACHE_FILES = "getCacheFiles"
+const val GET_DIR_PERMISSION = "getDirectoryPermission"
+const val CHECK_IF_PERMISSION_ALLOWED = "checkedDirPermission"
+const val GET_VIDEO_THUMBNAILS = "getVideoThumbnails"
+
+//App constants
 const val PLATFORM_CHANNEL_NAME = "com.example.whats_app_status_saver/wsData"
 const val FILETYPES = "media image audio video any"
 const val EXCEPTION_NOT_SUPPORTED = "EXCEPTION_NOT_SUPPORTED"
 const val GET_FILES = "getFiles"
-const val GET_CACHE_FILES = "getCacheFiles"
-const val GET_DIR_PERMISSION = "getDirectoryPermission"
+
 const val SHARED_PREF_NAME = "wsSharedFile"
-const val CHECK_IF_PERMISSION_ALLOWED = "checkedDirPermission"
+
 const val WS_DIRECTORY_PATH = "/Android/media/com.whatsapp/WhatsApp/Media/.Statuses"
 const val WS_BUSINESS_DIRECTORY_PATH = "/Android/media/com.whatsapp.w4b/WhatsApp Business/Media/.Statuses"
 const val FILE_TYPE = "any"

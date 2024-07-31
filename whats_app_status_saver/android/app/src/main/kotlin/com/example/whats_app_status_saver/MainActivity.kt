@@ -6,6 +6,8 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -17,6 +19,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.*
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 
@@ -68,6 +71,10 @@ class MainActivity : FlutterActivity() {
                 GET_CACHE_FILES -> {
                     getCacheFiles()
                 }
+
+//                GET_VIDEO_THUMBNAILS -> {
+//                    result.success(Resources.getVideoThumbnail())
+//                }
             }
 
         }
@@ -109,20 +116,20 @@ class MainActivity : FlutterActivity() {
         var dirPath = androidDirPath + WS_DIRECTORY_PATH
 
         //check if the normal whats-app does not exists
-        if(!File(dirPath).exists()){
+        if (!File(dirPath).exists()) {
             //check for whats-app business
             val businessWpPath = androidDirPath + WS_BUSINESS_DIRECTORY_PATH
-            if(File(businessWpPath).exists()){
+            if (File(businessWpPath).exists()) {
                 dirPath = businessWpPath
                 isBusinessWp = true;
                 Log.d("wb exists", "URL EXISTS:- $dirPath")
             }
         }
-        var docPathUri : String?;
-        if(isBusinessWp){
-            docPathUri =  util?.convertPathToUriString(WS_BUSINESS_DIRECTORY_PATH, false)
-        }else{
-            docPathUri   =
+        var docPathUri: String?;
+        if (isBusinessWp) {
+            docPathUri = util?.convertPathToUriString(WS_BUSINESS_DIRECTORY_PATH, false)
+        } else {
+            docPathUri =
                 util?.convertPathToUriString(WS_DIRECTORY_PATH, false)
         }
 
@@ -285,7 +292,7 @@ class MainActivity : FlutterActivity() {
         util: WsUtils
     ) {
         try {
-            var cachedFilesPath = listOf<String>()
+            val cachedFilesPath = mutableListOf<String>()
 
             val sourceTreeUri: Uri = uriPath
             val sourceChildDocumentsUri =
@@ -296,6 +303,10 @@ class MainActivity : FlutterActivity() {
                     val copiedPath: String? =
                         util.syncCopyFileToExternalStorage(uri, cacheDirectoryName, fileName)
                     if (copiedPath != null) cachedFilesPath += copiedPath.toString()
+//                    if (copiedPath != null && copiedPath.endsWith(".mp4")) {
+//                        Log.d("videofile", "copiedPath = $copiedPath")
+//                        Resources.setVideoThumbnailPath(generateVideoThumbnail(copiedPath))
+//                    }
                 }
             }
             result.success(cachedFilesPath)
@@ -305,7 +316,23 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-
+    private fun generateVideoThumbnail(videoPath: String?): ByteArray? {
+        val retriever = MediaMetadataRetriever()
+        return try {
+            retriever.setDataSource(videoPath)
+            val bitmap = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+            Log.d("videofile", "copiedPath =bitmap ${bitmap}")
+            val stream = ByteArrayOutputStream()
+            bitmap?.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            Log.d("videofile", "copiedPath =stream ${stream.toByteArray()}")
+            return stream.toByteArray()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        } finally {
+            retriever.release()
+        }
+    }
     ///Method to check if directory exists using contentURI
 //    fun isDirExists( contentUri: String) : Boolean{
 //        val cr : ContentResolver = getContentResolver()

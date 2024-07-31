@@ -41,4 +41,7 @@ class StringKeys {
       "Dear user you need to allow media permission to access and download status";
   static const String whatsAppNotSetUpText =
       "There was an error granting permission. If you haven't yet set up Whatsapp, please make sure you have installed it and configured it properly.";
+  static const String techErrorTitle = "Technical Error";
+  static const String techErrorText =
+      "A technical error has occured, Please try again later";
 }

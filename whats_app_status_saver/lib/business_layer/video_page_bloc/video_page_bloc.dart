@@ -7,11 +7,16 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../../core/local_storage/isar/isar_db_wrapper.dart';
+import '../../data_layer/models/thumbnail_model.dart';
 import 'video_page_event.dart';
 import 'video_page_state.dart';
 
 class VideoPageBloc extends Bloc<VideoPageEvent, VideoPageState> {
-  VideoPageBloc() : super(VideoPageInitialState()) {
+  final IsarDBWrapper isarDBWrapper;
+
+  VideoPageBloc({required this.isarDBWrapper})
+      : super(VideoPageInitialState()) {
     on<GetStatusVideoDownloadEvent>(_downloadStatusVideoOnGallery);
     on<StatusVideoShareEvent>(_shareStatusVideoOnSocial);
     on<GenerateVideosThumbnailEvent>(_generateVideosThumbnail);
@@ -51,15 +56,40 @@ class VideoPageBloc extends Bloc<VideoPageEvent, VideoPageState> {
       GenerateVideosThumbnailEvent event, Emitter<VideoPageState> emit) async {
     try {
       emit(VideoPageLoadingState());
-
+      //logic to get the thumbnails from either DB or generate from scratch if needed
       List<File> thumbnails = [];
-      for (File item in event.videoFiles) {
-        final thumbnail = await VideoThumbnail.thumbnailFile(video: item.path);
-        thumbnails.add(File(thumbnail ?? ''));
+      List<String> thumbnailsPath = [];
+      final storedThumbnails =
+          await isarDBWrapper.getObject<ThumbnailsModel>() as ThumbnailsModel?;
+
+      //if newly opened app or
+      //if there is a change in the video files length(videos added/removed)
+      if (storedThumbnails == null ||
+          storedThumbnails.thumbnailsPath?.length != event.videoFiles.length) {
+        //generate and store in db
+        for (File item in event.videoFiles) {
+          final thumbnail = await VideoThumbnail.thumbnailFile(
+            video: item.path,
+            imageFormat: ImageFormat.WEBP,
+            quality: 10,
+          );
+          thumbnails.add(File(thumbnail ?? ''));
+          thumbnailsPath.add(thumbnail ?? '');
+        }
+        await isarDBWrapper.deleteObject<ThumbnailsModel>();
+        await isarDBWrapper.addObject<ThumbnailsModel>(
+            dataObject: ThumbnailsModel(thumbnailsPath: thumbnailsPath));
+      } else {
+        for (var items in storedThumbnails.thumbnailsPath ?? []) {
+          thumbnails.add(File(items));
+        }
       }
+
       emit(VideosThumbnailLoadedState(thumbnails));
-    } catch (exception, stackTrace) {
-      log('exception:- $exception \nstackTrace:- $stackTrace');
+    } catch (exception) {
+      //if anything wrong happens due to DB then clear the cache
+      await isarDBWrapper.deleteDB();
+      emit(TechnicalErrorState());
     }
   }
 }

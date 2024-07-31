@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:whats_app_status_saver/core/local_storage/isar/isar_adapters_provider.dart';
+import 'package:whats_app_status_saver/core/local_storage/isar/isar_db_wrapper.dart';
 import '../core/app_theme/ws_app_theme.dart';
 import '../core/singleton/ws_app_data.dart';
 
@@ -24,7 +26,7 @@ Future<void> init() async {
       ));
 
   di.registerFactory<ImagePageBloc>(() => ImagePageBloc());
-  di.registerFactory<VideoPageBloc>(() => VideoPageBloc());
+  di.registerFactory<VideoPageBloc>(() => VideoPageBloc(isarDBWrapper: di()));
 
   //!Repository
   //!Data Provider
@@ -46,6 +48,12 @@ Future<void> init() async {
 //! Utils
   di.registerLazySingleton<WSAppTheme>(() => WSAppTheme());
 
+  //! Adapters
+  di.registerFactory<IsarAdaptersProvider>(() => IsarAdaptersProvider());
+
   //! Singleton
   di.registerLazySingleton<WsAppData>(() => WsAppData());
+
+  di.registerSingleton<IsarDBWrapper>(
+      await IsarDBWrapper(isarAdaptersProvider: di()).init());
 }

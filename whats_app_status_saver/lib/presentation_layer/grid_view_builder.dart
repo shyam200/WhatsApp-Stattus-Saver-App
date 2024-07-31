@@ -12,24 +12,25 @@ class GridViewBuilder extends StatelessWidget {
   final int itemCount;
   final bool isVideoView;
   final List? filesPath;
-  final List<File> thumbnails;
-  final List<File>? videoFiles;
+  final List<File>? thumbnails;
+
   final Function(int)? onTapCallback;
 
-  const GridViewBuilder(
-      {super.key,
-      required this.itemCount,
-      this.isVideoView = false,
-      this.filesPath,
-      this.onTapCallback,
-      this.thumbnails = const [],
-      this.videoFiles = const []});
+  const GridViewBuilder({
+    super.key,
+    required this.itemCount,
+    this.isVideoView = false,
+    this.filesPath,
+    this.onTapCallback,
+    this.thumbnails = const [],
+  });
 
   @override
   Widget build(BuildContext context) {
-    return filesPath != null || thumbnails.isNotEmpty
+    return filesPath != null || (thumbnails != null && thumbnails!.isNotEmpty)
         ? GridView.builder(
-            itemCount: isVideoView ? thumbnails.length : filesPath?.length ?? 0,
+            itemCount:
+                isVideoView ? thumbnails?.length : filesPath?.length ?? 0,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: MarginKeys.gridMainAxisSpacing,
@@ -50,10 +51,8 @@ class GridViewBuilder extends StatelessWidget {
                   child: SizedBox(
                     width: DimensionKeys.imageWeight,
                     height: DimensionKeys.imageHeight,
-                    child:
-                        // Image.memory(filesPath![index])
-                        Image.file(
-                      isVideoView ? thumbnails[index] : filesPath![index],
+                    child: Image.file(
+                      isVideoView ? thumbnails![index] : filesPath![index],
                       fit: BoxFit.cover,
                     ),
                   ),

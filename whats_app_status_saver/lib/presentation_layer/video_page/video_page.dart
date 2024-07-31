@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../business_layer/video_page_bloc/video_page_bloc.dart';
 import '../../business_layer/video_page_bloc/video_page_event.dart';
 import '../../business_layer/video_page_bloc/video_page_state.dart';
+import '../../core/widgets/ws_common_dialog.dart';
 import '../../core/widgets/ws_loader.dart';
 import '../../injection/injection_container.dart';
 import '../../resources/margin_keys.dart';
@@ -24,7 +25,7 @@ class Videopage extends StatefulWidget {
 
 class _VideopageState extends State<Videopage> {
   late VideoPageBloc _videoPageBloc;
-  List<File> thumbnails = [];
+  List<File>? thumbnails = [];
   bool isThumbnailsEmpty = false;
 
   @override
@@ -41,7 +42,16 @@ class _VideopageState extends State<Videopage> {
       listener: (context, state) {
         if (state is VideosThumbnailLoadedState) {
           thumbnails = state.videosThumbnail;
-          isThumbnailsEmpty = thumbnails.isEmpty ? true : false;
+          isThumbnailsEmpty = (thumbnails ?? []).isEmpty ? true : false;
+        } else if (state is TechnicalErrorState) {
+          showDialog(
+              context: context,
+              builder: (_) => const WSCommonDialog(
+                    crossIcnColor: Colors.black,
+                    headingText: StringKeys.techErrorTitle,
+                    body: Text(StringKeys.techErrorText,
+                        style: TextStyles.bodyText),
+                  ));
         }
       },
       builder: (context, state) {
@@ -57,8 +67,7 @@ class _VideopageState extends State<Videopage> {
                   ? GridViewBuilder(
                       itemCount: widget.filesList.length,
                       isVideoView: true,
-                      videoFiles: widget.filesList,
-                      thumbnails: thumbnails,
+                      thumbnails: thumbnails ?? [],
                       onTapCallback: _navigateVideoDetailView,
                     )
                   : Center(

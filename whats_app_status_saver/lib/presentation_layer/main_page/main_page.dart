@@ -53,6 +53,7 @@ class _MainpageState extends State<Mainpage> with WidgetsBindingObserver {
     if (AppLifecycleState.resumed == state) {
       _mainPageBloc
           .add(const CheckGalleryPermissionStatusEvent(isResumeState: true));
+      //clearing the thumbnails images while
     }
   }
 

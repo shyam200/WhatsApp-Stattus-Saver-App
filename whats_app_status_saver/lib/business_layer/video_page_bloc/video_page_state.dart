@@ -27,3 +27,5 @@ class VideosThumbnailLoadedState extends VideoPageState {
 }
 
 class VideoDetailInitialisedtState extends VideoPageState {}
+
+class TechnicalErrorState extends VideoPageState {}

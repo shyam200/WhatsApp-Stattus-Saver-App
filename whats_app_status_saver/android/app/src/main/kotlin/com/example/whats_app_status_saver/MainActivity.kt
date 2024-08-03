@@ -87,7 +87,6 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun getCacheFiles() {
-/
         val uri = sharedPreferences.getString(PERMISSION_URI_KEY, "")
 
         if (!uri.isNullOrEmpty()) {
@@ -115,7 +114,7 @@ class MainActivity : FlutterActivity() {
             if (File(businessWpPath).exists()) {
                 dirPath = businessWpPath
                 isBusinessWp = true;
-//                Log.d("wb exists", "URL EXISTS:- $dirPath")
+///                Log.d("wb exists", "URL EXISTS:- $dirPath")
             }
         }
         var docPathUri: String?;

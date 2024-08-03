@@ -3,16 +3,16 @@ class StringKeys {
   static const String getPermissionTxt = "Allow Permission";
   static const String getPermissionHeading = "To Get All Status";
   static const String getPermissionSubHeading =
-      "Allow Access to '.Statuses' Folder";
+      "Allow access to '.Statuses' folder";
 
   static const String getPermissionSubHeadingOlderAndroid =
-      "To Get All Status you need to Allow Access to 'Media' Folder";
+      "To get all status, you need to allow access to the 'Media' folder.";
 
   static const String noVideosFoundTxt = 'No Video found!';
   static const String videoSuccessTxt = 'Video Saved Successfully!';
   static const String imageSuccessTxt = 'Image Saved Successfully!';
   static const String imageNotFoundTxt =
-      'Status images are not available. Check your WhatsApp status';
+      'Status images are not available. Please check your WhatsApp status.';
   static const String allow = "Allow";
   static const String imageLabel = "Image";
   static const String videoLabel = "Video";
@@ -40,7 +40,7 @@ class StringKeys {
   static const String permissionBodyText =
       "Dear user you need to allow media permission to access and download status";
   static const String whatsAppNotSetUpText =
-      "There was an error granting permission. If you haven't yet set up Whatsapp, please make sure you have installed it and configured it properly.";
+      "There was an error granting permission. If you haven't set up WhatsApp yet, please make sure you have installed and configured it properly.";
   static const String techErrorTitle = "Technical Error";
   static const String techErrorText =
       "A technical error has occured, Please try again later";

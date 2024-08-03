@@ -71,10 +71,6 @@ class MainActivity : FlutterActivity() {
                 GET_CACHE_FILES -> {
                     getCacheFiles()
                 }
-
-//                GET_VIDEO_THUMBNAILS -> {
-//                    result.success(Resources.getVideoThumbnail())
-//                }
             }
 
         }
@@ -91,12 +87,11 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun getCacheFiles() {
-//        val args = call.arguments as Map<String, String>
+/
         val uri = sharedPreferences.getString(PERMISSION_URI_KEY, "")
 
         if (!uri.isNullOrEmpty()) {
             directoryUri = Uri.parse(uri)
-            println("afterDirUri = $directoryUri")
             buildAndGetCacheFiles(
                 directoryUri!!,
                 FILE_TYPE,
@@ -105,8 +100,6 @@ class MainActivity : FlutterActivity() {
                 this,
                 util
             )
-        } else {
-            print("uri is :--$uri")
         }
     }
 
@@ -122,7 +115,7 @@ class MainActivity : FlutterActivity() {
             if (File(businessWpPath).exists()) {
                 dirPath = businessWpPath
                 isBusinessWp = true;
-                Log.d("wb exists", "URL EXISTS:- $dirPath")
+//                Log.d("wb exists", "URL EXISTS:- $dirPath")
             }
         }
         var docPathUri: String?;
@@ -141,9 +134,9 @@ class MainActivity : FlutterActivity() {
 
 
         if (File(dirPath).exists()) {
-            Log.d("URL FOUND", "URL EXISTS:- $dirPath")
+//            Log.d("URL FOUND", "URL EXISTS:- $dirPath")
         } else {
-            Log.d("URL NOT FOUND", "URL DOESN'T EXISTS:- $dirPath")
+//            Log.d("URL NOT FOUND", "URL DOESN'T EXISTS:- $dirPath")
             resultCallback?.success(false)
             return
         }
@@ -187,7 +180,7 @@ class MainActivity : FlutterActivity() {
                 }
             }
         } catch (ex: Exception) {
-            Log.d("OnActivity failure", "ON_ACTIVITY_RESULT FAILED WITH EXCEPTION\n$ex")
+//            Log.d("OnActivity failure", "ON_ACTIVITY_RESULT FAILED WITH EXCEPTION\n$ex")
             resultCallback?.success(false)
         }
     }
@@ -261,13 +254,13 @@ class MainActivity : FlutterActivity() {
                         }
                     }
                 } catch (e: Exception) {
-                    Log.e("CONTENT_RESOLVER_EXCEPTION: ", e.message!!)
+//                    Log.e("CONTENT_RESOLVER_EXCEPTION: ", e.message!!)
                 } finally {
                     if (cursor != null) {
                         try {
                             cursor.close()
                         } catch (re: RuntimeException) {
-                            Log.e("RUNTIME_EXCEPTION", re.message!!)
+//                            Log.e("RUNTIME_EXCEPTION", re.message!!)
                         }
                     }
                 }
@@ -276,7 +269,7 @@ class MainActivity : FlutterActivity() {
                 resultCallback?.notSupported(method, API_21)
             }
         } catch (e: Exception) {
-            Log.e("BUILD_CHILD_DOCUMENTS_PATH_USING_TREE_EXCEPTION: ", e.message!!)
+//            Log.e("BUILD_CHILD_DOCUMENTS_PATH_USING_TREE_EXCEPTION: ", e.message!!)
             resultCallback?.success(null)
         }
     }
@@ -303,55 +296,12 @@ class MainActivity : FlutterActivity() {
                     val copiedPath: String? =
                         util.syncCopyFileToExternalStorage(uri, cacheDirectoryName, fileName)
                     if (copiedPath != null) cachedFilesPath += copiedPath.toString()
-//                    if (copiedPath != null && copiedPath.endsWith(".mp4")) {
-//                        Log.d("videofile", "copiedPath = $copiedPath")
-//                        Resources.setVideoThumbnailPath(generateVideoThumbnail(copiedPath))
-//                    }
                 }
             }
             result.success(cachedFilesPath)
         } catch (e: Exception) {
-            Log.e("CACHING_EXCEPTION", "UNABLE TO BUILD CACHE DIR ${e.message!!}")
+//            Log.e("CACHING_EXCEPTION", "UNABLE TO BUILD CACHE DIR ${e.message!!}")
             result.success(null)
         }
     }
-
-    private fun generateVideoThumbnail(videoPath: String?): ByteArray? {
-        val retriever = MediaMetadataRetriever()
-        return try {
-            retriever.setDataSource(videoPath)
-            val bitmap = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-            Log.d("videofile", "copiedPath =bitmap ${bitmap}")
-            val stream = ByteArrayOutputStream()
-            bitmap?.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            Log.d("videofile", "copiedPath =stream ${stream.toByteArray()}")
-            return stream.toByteArray()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        } finally {
-            retriever.release()
-        }
-    }
-    ///Method to check if directory exists using contentURI
-//    fun isDirExists( contentUri: String) : Boolean{
-//        val cr : ContentResolver = getContentResolver()
-////        val projection : ArrayList<String> = arrayListOf(MediaStore.MediaColumns.DATA)
-//        val cur :Cursor? = cr.query(Uri.parse(contentUri),
-//            arrayOf(MediaStore.MediaColumns.DATA), null, null, null);
-//        if (cur != null) {
-//            if (cur.moveToFirst()) {
-//                val filePath :String = cur.getString(0);
-//
-//                return File(filePath).exists()
-//            } else {
-//                Log.d("NO Entry", "Uri was ok but no entry found")
-//                return false
-//            }
-//            cur.close();
-//        } else {
-//            Log.d("Invalid URI", "content Uri was invalid or some other error occurred")
-//            return false
-//        }
-//    }
 }

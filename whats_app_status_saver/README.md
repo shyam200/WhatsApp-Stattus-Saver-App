@@ -1,6 +1,12 @@
 # whats_app_status_saver
 
-An application to save whatsApp statuses on gallery. It offers share feature to share statuses with multiple peoples, friends and family. A dark more feature for better eye protection.
+A WhatsApp Status Saver application that allows users to save WhatsApp statuses directly to their gallery. It also includes a sharing feature that lets users share statuses with multiple people, including friends and family. The app offers dark mode for a more comfortable viewing experience and has achieved over 100 downloads on the Google Play Store.
+
+#Tech stack Used
+- Flutter, Native Android, Bloc, Dart, Kotlin, Layered Architecture, Hive Database
+
+#Playstore Url 
+- https://play.google.com/store/apps/details?id=com.shyamLabs.wssaver
 
 
 # Accessbility
@@ -9,9 +15,6 @@ An application to save whatsApp statuses on gallery. It offers share feature to 
 - Native splash are only enabled for android 
 
 ## Getting Started
-
-
-
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
